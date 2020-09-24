@@ -1,5 +1,5 @@
-// FIXME: Remove axios
-const axios = require("axios");
+require("isomorphic-fetch");
+
 const config = require("../config");
 
 const defaults = {
@@ -30,9 +30,16 @@ const get = (url, options = {}) =>
     };
 
     // Query oEmbed
-    axios
-      .get(resolvedOptions.oembedService, { params })
-      .then(({ data }) => success(data))
+    const embedService = new URL(resolvedOptions.oembedService);
+    Object.keys(params).forEach((key) => {
+      if (params[key]) {
+        embedService.searchParams.append(key, params[key]);
+      }
+    });
+    return fetch(embedService)
+      .then((res) => {
+        success(res.json());
+      })
       .catch(fail);
   });
 

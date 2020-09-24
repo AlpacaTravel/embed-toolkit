@@ -1,51 +1,42 @@
-const path = require('path');
-const BabelMinifyWebpackPlugin = require('babel-minify-webpack-plugin');
+const path = require("path");
 
 const config = {
-  entry: {
-    'alpaca-toolkit.babel.min': [path.resolve(__dirname, './src/index.js')],
-    'alpaca-toolkit.babel.polyfilled': ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
-    'alpaca-toolkit.babel.polyfilled.min': ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
-  },
+  target: "web",
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].js',
-    library: 'alpaca',
-    libraryTarget: 'window',
+    path: path.resolve(__dirname, "./dist"),
+    filename: "alpaca-toolkit-cdn.js",
+    library: "alpaca",
+    libraryTarget: "window",
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
             presets: [
               [
-                "env", 
+                "@babel/preset-env",
                 {
-                  "targets": {
-                    "browsers": [
-                      ">0.25%"
-                    ]
-                  }
-                }
-              ]
-            ]
-          }
-        }
-      }
-    ]
+                  targets: "> 0.25%, not dead",
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
   },
-  plugins: [
-    new BabelMinifyWebpackPlugin({}, { include: /\.min\.js$/ }),
-  ],
+  plugins: [],
   devServer: {
-    contentBase: path.join(__dirname, 'public'),
+    contentBase: path.join(__dirname, "public"),
     compress: true,
-    port: 9000
-  }
-}
+    port: 9000,
+  },
+  mode: "production",
+};
 
 module.exports = config;
