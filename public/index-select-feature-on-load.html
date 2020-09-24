@@ -1,0 +1,117 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Language" content="en"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@next.babel.polyfilled.min.js"></script>
+<title>Alpaca Test</title>
+<style>
+
+// Alpaca articles
+.alpaca-block {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.alpaca-article {
+  position: relative;
+}
+
+.alpaca-article-inner {
+  box-sizing: border-box;
+  padding: 40px;
+  width: 50%;
+  text-align: left;
+}
+
+.alpaca-article-embed {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+}
+
+.alpaca-article-embed iframe, .iframe-embed {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.alpaca-article-embed {
+  position: fixed;
+}
+
+</style>
+</head>
+<body>
+  <div class="section-container alpaca-block">
+    <div class="full-container">
+      <div id="container" class="embed-container alpaca fixed"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    // Item to select
+    var title = "THE SAILORS GRAVE BREWING";
+
+    // The URL of the asset
+    var url = "https://embed.alpacamaps.com/locale/melbourne-food-and-wine-regional-itineraries/default";
+
+    // Provide the iframe and any object styling yourself
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute("src", url);
+    iframe.setAttribute("class", "iframe-embed");
+
+    // Setup the embed options
+    var options = {
+      container: "container",
+      url: url,
+      iframe: iframe,
+    };
+
+    // Create the content viewer
+    var view = new alpaca.View(options);
+
+    // Wait for the view to initialise
+    view.on("init", function() {
+      // Wait for the items in the embed (promise)
+      view.getItems()
+        .then(function(items) {
+          // Auto select a feature based on the title
+          
+          // Fuzzy matching...
+          // Control the matching options
+          var fuzzyOptions = { threshold: 0.05 };
+          var resolver = alpaca.resolver.resolver;
+          var r = resolver(items);
+          var id = r(title);
+
+          // Exact matcher (case insensitive)
+          // var matcher = function(item) {
+          //   return item.title.toLowerCase() === title.toLowerCase();
+          // }
+          // var item = items.find(matcher);
+          // var id = (item && item.id) || null;
+
+          // Pass in the selected feature
+          if (id) {
+            view.on("loaded", function() {
+              view.setSelectedFeature(id);
+            });
+          }
+        });
+    });
+  </script>
+</body>
+</html>
