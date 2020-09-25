@@ -37,7 +37,6 @@ const oembedOptions = (() => {
 // Write via oembed
 const oembed = async (url, options) => {
   try {
-    console.log(url, options);
     const { html } = await get(url, options);
     document.getElementById("alpaca").innerHTML = html;
   } catch (e) {
