@@ -12,6 +12,10 @@ This toolkit is provided to assist integration of your Alpaca (https://alpaca.tr
 content within your website through JavaScript that can communicate with oembed or your
 iframe.
 
+- Exposes events such as when content is indicated or selected
+- Can allow you to send actions to the iframe, such as selecting features so you can build interactions outside the iframe
+- Looks up the embed code using OEmbed protocol
+
 # [Toolkit Documentation](https://developer.alpacamaps.com/)
 
 Documentation is available for developers, including on how to use this
