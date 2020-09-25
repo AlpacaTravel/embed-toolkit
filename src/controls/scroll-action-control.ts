@@ -34,10 +34,10 @@ class ScrollActionControl implements Control {
   private options: ScrollActionControlOptions;
   private stopped: boolean;
   private trigger: EventListener;
-  private view: View | null = null;
+  private view?: View;
   private action?: Action;
-  private id: string | null = null;
-  private offsets: ItemOffsets | null = null;
+  private id?: string;
+  private offsets?: ItemOffsets;
 
   constructor(options: ScrollActionControlOptions) {
     // Obtain the options
@@ -140,9 +140,9 @@ class ScrollActionControl implements Control {
   remove() {
     // Remove outselves
     window.removeEventListener("scroll", this.trigger, false);
-    this.view = null;
-    this.offsets = null;
-    this.id = null;
+    this.view = undefined;
+    this.offsets = undefined;
+    this.id = undefined;
     this.action = undefined;
   }
 }

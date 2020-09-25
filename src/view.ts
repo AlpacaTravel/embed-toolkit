@@ -44,6 +44,7 @@ type OembedAttach = oembed.GetOptions & {
 
 type IframeAttach = {
   iframe: HTMLIFrameElement;
+  host?: string;
 };
 
 type ViewOptions = IframeAttach | OembedAttach;
@@ -69,9 +70,9 @@ class View extends Evented {
     // Resolve the options we are using
     const resolvedDefaultOptions = (() => {
       if (isIframe(options)) {
-        return Object.assign({}, defaultOptions);
+        return (<any>Object).assign({}, defaultOptions);
       }
-      return Object.assign({}, defaultOptions, defaultGetOptions);
+      return (<any>Object).assign({}, defaultOptions, defaultGetOptions);
     })();
     const resolvedOptions = (<any>Object).assign(
       {},
@@ -137,14 +138,12 @@ class View extends Evented {
           }
           // If we have been supplied an iframe
           // Initialise messaging with the iframe
-          const url = URI(this.iframe.src);
-          const host = `${url.protocol()}://${url.hostname()}`;
 
           // Build the iframe messaging
           const options = {
             url: this.iframe.src,
             callback: this.receiveMessage,
-            host,
+            host: (this.options as IframeAttach).host || "*",
           };
           // Initialise our messaging
           this.messaging = messaging.init(this.iframe, options);

@@ -2,9 +2,9 @@ import assert from "assert";
 
 import View, { Control } from "../view";
 
-const defaultOptions = {
+const defaultOptions: { attribute: string; selectors?: string } = {
   attribute: "data-alpaca-id",
-  selectors: null,
+  selectors: undefined,
 };
 
 type MouseActionControlOptions = {

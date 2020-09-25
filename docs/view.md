@@ -17,32 +17,42 @@ display your content and automatically receives updates.
 var view = new alpaca.View(options);
 ```
 
-### Options
+### Constructor Options
+
+#### Using oembed to discover the embed (recommended)
 
 There are several options that you can use to customise the View component.
 
-| Parameter | Description |
-|-----------|-------------|
-| url* | The URL that can load the Alpaca content |
-| container* | The ID of the HTML element (obtainable using document.getElementById) or the element directly |
-| height | Optional height parameter |
-| width | Optional width parameter |
-| iframe | If you already have the iframe element created. Avoids oEmbed discovery |
-| viewMode | Specify either "mobile" to force mobile layout or "map" to use only the map layout |
+| Parameter   | Description                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------- |
+| url\*       | The URL that can load the Alpaca content                                                      |
+| container\* | The ID of the HTML element (obtainable using document.getElementById) or the element directly |
+| height      | Optional height parameter                                                                     |
+| width       | Optional width parameter                                                                      |
+| viewMode    | Specify either "mobile" to force mobile layout or "map" to use only the map layout            |
+
+#### Manually providing an already included iframe element
+
+If you have already included the iframe code within your application, and simply want to communicate
+to it, use the following options.
+
+| Parameter | Description         |
+| --------- | ------------------- |
+| iframe    | HTML IFrame Element |
 
 ## Exposed Actions
 
 ### setSelectedFeature(id?)
 
-| Argument | Description |
-|----------|-------------|
-| id | The id of the feature to select |
+| Argument  | Description                     |
+| --------- | ------------------------------- |
+| id:string | The id of the feature to select |
 
 ### setIndicatedFeature(id?)
 
-| Argument | Description |
-|----------|-------------|
-| id | The id of the feature to indicate |
+| Argument  | Description                       |
+| --------- | --------------------------------- |
+| id:string | The id of the feature to indicate |
 
 ### setTargetViewport(viewport, move?)
 
@@ -60,15 +70,15 @@ var specificLocation = {
 
 var boundsLocation = {
   // Bounds [[s,w], [n,e]]
-  bounds: [[12, 13], []]
+  bounds: [[12, 13], []],
 };
 
 // Move the View to a specific viewport
 view.setViewportTemporaryTarget(boundsLocation);
 ```
 
-| Argument | Description |
-|----------|-------------|
+| Argument | Description                             |
+| -------- | --------------------------------------- |
 | viewport | The viewport to move the map content to |
 
 ?> Note: This does not lock the viewport.
@@ -88,27 +98,27 @@ Alapca View component.
 
 On every matching event, call the supplied handler function.
 
-| Argument | Description |
-|----------|-------------|
-| event | The event string, such as 'load' |
-| handler | The callback function |
+| Argument | Description                      |
+| -------- | -------------------------------- |
+| event    | The event string, such as 'load' |
+| handler  | The callback function            |
 
 ### once(event, handler)
 
 Take one matching event and call the supplied handler function.
 
-| Argument | Description |
-|----------|-------------|
-| event | The event string, such as 'load' |
-| handler | The callback function |
+| Argument | Description                      |
+| -------- | -------------------------------- |
+| event    | The event string, such as 'load' |
+| handler  | The callback function            |
 
 ### off(handler)
 
 Remove the registered handler from receiving events
 
-| Argument | Description |
-|----------|-------------|
-| handler | The callback function |
+| Argument | Description           |
+| -------- | --------------------- |
+| handler  | The callback function |
 
 ### load
 
@@ -163,14 +173,14 @@ var headerScrollInteraction = new alpaca.controls.ScrollActionControl(options);
 view.addControl(headerScrollInteraction);
 ```
 
-| Parameter | Overview |
-|-----------|----------|
-| selectors* | The selectors to obtain the HTML elements that should be attached to the action, queried using document.querySelectorAll |
-| action* | The View API call (e.g. 'setIndicatedFeature') or your own function call back (e.g. (id) => console.log(id)) |
-| attribute | The data attribute ID for the feature (defaults to 'data-alpaca-id') |
-| offsetY | The offset to add to the current user scroll position in order (defaults: 50) |
-| offsetTop | A function the takes the matched HTML Element and calculated the offset from the top of the page |
-| throttle | The scroll sample rate (defaults: 50 ms) |
+| Parameter   | Overview                                                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------ |
+| selectors\* | The selectors to obtain the HTML elements that should be attached to the action, queried using document.querySelectorAll |
+| action\*    | The View API call (e.g. 'setIndicatedFeature') or your own function call back (e.g. (id) => console.log(id))             |
+| attribute   | The data attribute ID for the feature (defaults to 'data-alpaca-id')                                                     |
+| offsetY     | The offset to add to the current user scroll position in order (defaults: 50)                                            |
+| offsetTop   | A function the takes the matched HTML Element and calculated the offset from the top of the page                         |
+| throttle    | The scroll sample rate (defaults: 50 ms)                                                                                 |
 
 ### Mouse Action Control
 
@@ -201,11 +211,11 @@ view.addControl(mouseInteraction);
 
 ?> The Alpaca library also supports the mouseleave and mouseenter events.
 
-| Parameter | Overview |
-|-----------|----------|
-| selectors* | The selectors to obtain the HTML elements that should be attached to the action, queried using document.querySelectorAll |
-| attribute | The data attribute ID for the feature (defaults to 'data-alpaca-id') |
-| onMouseOver, onMouseOut, onMouseEnter, onMouseLeave, onMouseDown, onMouseUp, onClick, onDblClick | Your function to perform when the event occurs, supplied ```id, view, event``` |
+| Parameter                                                                                        | Overview                                                                                                                 |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| selectors\*                                                                                      | The selectors to obtain the HTML elements that should be attached to the action, queried using document.querySelectorAll |
+| attribute                                                                                        | The data attribute ID for the feature (defaults to 'data-alpaca-id')                                                     |
+| onMouseOver, onMouseOut, onMouseEnter, onMouseLeave, onMouseDown, onMouseUp, onClick, onDblClick | Your function to perform when the event occurs, supplied `id, view, event`                                               |
 
 ### Timeline Action Control
 
@@ -239,9 +249,9 @@ view.addControl(mouseInteraction);
 timeline.seek(5);
 ```
 
-| Parameter | Overview |
-|-----------|----------|
-| keyframes* | The collection of keyframes that are seekable |
+| Parameter   | Overview                                      |
+| ----------- | --------------------------------------------- |
+| keyframes\* | The collection of keyframes that are seekable |
 
 #### Keyframe Properties
 
@@ -250,19 +260,20 @@ The keyframe object takes props that can assist with the seek behaviour.
 ```javascript
 const keyframe = {
   // Resolved automatically..
-  title: 'Human friendly map location',
+  title: "Human friendly map location",
   // Otherwise, if you want to manage ID's:
   // id: abc,
   start: 5,
   end: 10,
-  onEnter: function() {
+  onEnter: function () {
     // When becomes active
   },
-  onLeave: function() {
+  onLeave: function () {
     // If the keyframe was active, and now is not..
-  }
-}
+  },
+};
 ```
+
 ?> You can also overload the keyframe with your own properties that are passed
 back when the keyframe becomes active.
 
@@ -298,18 +309,18 @@ view.once('bind', function() {
 });
 ```
 
-| Parameter | Overview |
-|-----------|----------|
-| selectors* | The selectors to obtain the HTML elements that should be attached to the action, queried using document.querySelectorAll |
-| resolve | Alternative resolve function that takes the element and the collection of items and returns an ID if the element matches an item (element, items, options) => id (defaults to 'best match' from element text to item item title with minimum similarity) |
-| attribute | The attribute that will be populated with the ID when matched (defaults: 'data-alpaca-id') |
-| exclude | Exclude method which takes an element and will return true/false on whether bind should perform (default excludes elements with an attribute already set) |
-| threshold | Threshold for matching, 0 being exact match, 1 being match anything (default: 0.2) |
-| tokenize | Tokenize, ignoring distance, location and threshold (default: true) |
-| minMatchCharLength | Minimum characters to match against (default: 3) |
-| maxPatternLength | Maximum pattern length to match against (default: 60) |
-| location | Approximately where in the text the pattern is to be found (default: 0) |
-| distance | Determins how close the match must be to the fuzzy location (default: 100) |
+| Parameter          | Overview                                                                                                                                                                                                                                                 |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| selectors\*        | The selectors to obtain the HTML elements that should be attached to the action, queried using document.querySelectorAll                                                                                                                                 |
+| resolve            | Alternative resolve function that takes the element and the collection of items and returns an ID if the element matches an item (element, items, options) => id (defaults to 'best match' from element text to item item title with minimum similarity) |
+| attribute          | The attribute that will be populated with the ID when matched (defaults: 'data-alpaca-id')                                                                                                                                                               |
+| exclude            | Exclude method which takes an element and will return true/false on whether bind should perform (default excludes elements with an attribute already set)                                                                                                |
+| threshold          | Threshold for matching, 0 being exact match, 1 being match anything (default: 0.2)                                                                                                                                                                       |
+| tokenize           | Tokenize, ignoring distance, location and threshold (default: true)                                                                                                                                                                                      |
+| minMatchCharLength | Minimum characters to match against (default: 3)                                                                                                                                                                                                         |
+| maxPatternLength   | Maximum pattern length to match against (default: 60)                                                                                                                                                                                                    |
+| location           | Approximately where in the text the pattern is to be found (default: 0)                                                                                                                                                                                  |
+| distance           | Determins how close the match must be to the fuzzy location (default: 100)                                                                                                                                                                               |
 
 ?> **Note:** This performs a fuzzy search to match your
 content, which does a 'best match' model. For performance and

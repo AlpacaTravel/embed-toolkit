@@ -3,7 +3,7 @@ const path = require("path");
 const config = {
   target: "web",
   entry: {
-    main: "./src/index.js",
+    main: "./src/index.ts",
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
@@ -14,7 +14,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.[jt]s$/,
         exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
@@ -26,11 +26,15 @@ const config = {
                   targets: "> 0.25%, not dead",
                 },
               ],
+              "@babel/preset-typescript",
             ],
           },
         },
       },
     ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [],
   devServer: {

@@ -1,47 +1,21 @@
-// rollup.config.js
-import fs from "fs";
-import path from "path";
-import commonjs from "rollup-plugin-commonjs";
-import nodeResolve from "rollup-plugin-node-resolve";
-import json from "rollup-plugin-json";
+import typescript from "rollup-plugin-typescript2";
+import commonjs from "@rollup/plugin-commonjs";
 
-const pkg = JSON.parse(
-  fs.readFileSync(path.resolve("./package.json"), "utf-8")
-);
-const external = Object.keys(pkg.dependencies || {}).concat(
-  Object.keys(pkg.peerDependencies || {})
-);
+import pkg from "./package.json";
 
-export default {
-  input: "src/index.js",
-  output: [
-    {
-      file: "dist/alpaca-toolkit.js",
-      format: "cjs",
-      exports: "named",
-    },
-    {
-      file: "dist/alpaca-toolkit.es6.js",
-      format: "es",
-      exports: "named",
-    },
-  ],
-
-  plugins: [
-    json({
-      preferConst: true,
-    }),
-
-    nodeResolve({
-      jsnext: true,
-      preferBuiltins: false,
-      main: true,
-    }),
-
-    commonjs({
-      exclude: ["/node_modules/"],
-      sourceMap: false, // Default: true
-    }),
-  ],
-  external,
-};
+export default [
+  {
+    input: "src/index.ts",
+    external: [],
+    output: [
+      { file: pkg.main, format: "cjs" },
+      { file: pkg.module, format: "es" },
+    ],
+    plugins: [
+      commonjs(),
+      typescript({
+        typescript: require("typescript"),
+      }),
+    ],
+  },
+];

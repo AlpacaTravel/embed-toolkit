@@ -22,7 +22,7 @@ const createResolver = (items: FeatureItem[], options?: ResolverOptions) => {
 
 type KeyframeResolver = (keyframe: KeyframeResolver) => string | null;
 
-const defaultOptions = {
+const defaultOptions: { keyframes: Keyframe[] } = {
   keyframes: [],
 };
 
@@ -50,9 +50,9 @@ class TimelineActionControl extends Evented implements Control {
   private options: TimelineActionControlOptions;
   private keyframes: ReferenceableKeyframe[];
   private active: ReferenceableKeyframe[];
-  private resolver: Resolver | null = null;
-  private view: View | null = null;
-  private items: FeatureItem[] | null = null;
+  private resolver?: Resolver;
+  private view?: View;
+  private items?: FeatureItem[];
 
   constructor(options: TimelineActionControlOptions) {
     super();
@@ -151,9 +151,9 @@ class TimelineActionControl extends Evented implements Control {
   }
 
   remove() {
-    this.items = null;
-    this.view = null;
-    this.resolver = null;
+    this.items = undefined;
+    this.view = undefined;
+    this.resolver = undefined;
   }
 }
 
