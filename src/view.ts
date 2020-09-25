@@ -38,7 +38,7 @@ function isOembed(obj: any): obj is OembedAttach {
 }
 
 type OembedAttach = oembed.GetOptions & {
-  container: HTMLElement | "string";
+  container: HTMLElement | string;
   url: string;
 };
 
