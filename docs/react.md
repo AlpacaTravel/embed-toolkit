@@ -3,7 +3,7 @@ You can integrate into react with a simple React hook binding the library.
 </h2>
 <br/>
 
-Alpaca Toolkit comes with React bindings and supporting CJS/ES modules.
+Alpaca Toolkit is available on NPM and comes with typescript types and supporting CJS/ES modules.
 
 - Observe events such as indicated or selected features with corresponding data
 - Trigger events, such as selecting on indicating elements on the embed
