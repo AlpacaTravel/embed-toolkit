@@ -16,6 +16,8 @@ iframe.
 - Can allow you to send actions to the iframe, such as selecting features so you can build interactions outside the iframe
 - Looks up the embed code using OEmbed protocol
 
+NOTE: Alpaca is in the process of launching their GraphQL API, allowing you to access and modify underlying data to build more integrated experiences.
+
 # [Toolkit Documentation](https://developer.alpacamaps.com/)
 
 Documentation is available for developers, including on how to use this
