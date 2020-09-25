@@ -22,6 +22,7 @@ const defaultOptions = {};
 
 const defaultGetOptions = {
   baseUrl: config.BASE_URL,
+  oembedService: config.OEMBED_ENDPOINT,
 };
 
 function isIframe(obj: any): obj is IframeAttach {
@@ -161,7 +162,8 @@ class View extends Evented<EventType> {
               width: this.options.width,
               viewMode: this.options.viewMode,
               baseUrl: this.options.baseUrl,
-              oembedServic: this.options.oembedService,
+              oembedService: this.options.oembedService,
+              responsive: this.options.responsive,
             };
 
             // Embed the element

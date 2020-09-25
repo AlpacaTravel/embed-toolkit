@@ -53,11 +53,8 @@ export const get = (url: string, options: GetOptions = {}) =>
     if (params.width) {
       embedService.searchParams.append("height", params.height);
     }
-    if (params.responsive) {
-      embedService.searchParams.append(
-        "responsive",
-        params.responsive === true ? "1" : "0"
-      );
+    if (params.responsive === false) {
+      embedService.searchParams.append("responsive", "false");
     }
     if (params.viewMode) {
       embedService.searchParams.append("viewMode", params.viewMode);
