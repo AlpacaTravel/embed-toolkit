@@ -3,7 +3,7 @@ const path = require("path");
 const config = {
   target: "web",
   entry: {
-    main: ["@babel/polyfill", "./src/webpack.ts"],
+    main: ["@babel/polyfill", "./src/index.ts"],
   },
   output: {
     path: path.resolve(__dirname, "./dist"),

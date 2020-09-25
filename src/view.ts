@@ -191,7 +191,7 @@ class View extends Evented<EventType> {
           // Wait on all the elements
           setupTarget
             .then(() => this.emit("init"))
-            .then(success)
+            .then(() => success())
             .catch((err) => this.emit("error", err));
         }
       });
