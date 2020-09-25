@@ -1,9 +1,9 @@
-import alpaca from "../../src/index";
+import { View, controls, resolver } from "../../src/index";
 
 test("default export", () => {
-  expect(typeof alpaca).toBe("object");
-  expect(alpaca.View);
-  expect(alpaca.controls.ScrollActionControl);
-  expect(alpaca.controls.AutoBindControl);
-  expect(alpaca.controls.MouseActionControl);
+  expect(View);
+  expect(controls.ScrollActionControl);
+  expect(controls.AutoBindControl);
+  expect(controls.MouseActionControl);
+  expect(resolver);
 });
