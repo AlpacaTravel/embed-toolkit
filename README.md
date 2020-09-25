@@ -42,10 +42,9 @@ npm install @alpaca-travel/toolkit --save
 
 #### CDN Hosting
 
-| Distribution                                                                 | Notes                                                 |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.polyfilled.min.js | **Default** Version 1 Default CDN containing polyfill |
-| https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.min.js            | Version 1 release                                     |
+| Distribution                                            | Notes                                                 |
+| ------------------------------------------------------- | ----------------------------------------------------- |
+| https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v2.js | **Default** Version 2 Default CDN containing polyfill |
 
 ### Examples including the library
 
