@@ -23,16 +23,16 @@ var view = new alpaca.View(options);
 
 There are several options that you can use to customise the View component.
 
-| Parameter    | Description                                                                                   |
-| ------------ | --------------------------------------------------------------------------------------------- |
-| url\*        | The URL that can load the Alpaca content                                                      |
-| container\*  | The ID of the HTML element (obtainable using document.getElementById) or the element directly |
-| height       | Optional height parameter                                                                     |
-| width        | Optional width parameter                                                                      |
-| viewMode     | Specify either "mobile" to force mobile layout or "map" to use only the map layout            |
-| responsive   | Specify false to only include an iframe element                                               |
-| baseUrl      | Specify the base URL for the embeded media (for use with custom domains)                      |
-| embedService | Specify the oembed service to call to obtain the HTML iframe embed                            |
+| Parameter     | Description                                                                                   |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| url\*         | The URL that can load the Alpaca content                                                      |
+| container\*   | The ID of the HTML element (obtainable using document.getElementById) or the element directly |
+| height        | Optional height parameter                                                                     |
+| width         | Optional width parameter                                                                      |
+| viewMode      | Specify either "mobile" to force mobile layout or "map" to use only the map layout            |
+| responsive    | Specify false to only include an iframe element                                               |
+| baseUrl       | Specify the base URL for the embeded media (for use with custom domains)                      |
+| oembedService | Specify the oembed service to call to obtain the HTML iframe embed                            |
 
 #### Manually providing an already included iframe element
 
