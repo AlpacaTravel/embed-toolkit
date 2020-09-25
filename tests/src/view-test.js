@@ -1,7 +1,6 @@
-const nock = require("nock");
-const JSDOM = require("jsdom").JSDOM;
-
-const View = require("../../src/view");
+import nock from "nock";
+import { JSDOM } from "jsdom";
+import View from "../../src/view";
 
 test("default export", () => {
   expect(typeof View).toBe("function");

@@ -1,4 +1,4 @@
-const controls = require("../../../src/controls/index");
+import * as controls from "../../../src/controls/index";
 
 test("default export", () => {
   expect(controls.ScrollActionControl);

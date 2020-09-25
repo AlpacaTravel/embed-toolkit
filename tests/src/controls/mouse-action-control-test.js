@@ -1,6 +1,5 @@
-const JSDOM = require("jsdom").JSDOM;
-const MouseActionControl = require("../../../src/controls/mouse-action-control");
-const View = require("../../../src/view");
+import MouseActionControl from "../../../src/controls/mouse-action-control";
+import View from "../../../src/view";
 
 test("default export", () => {
   expect(MouseActionControl);

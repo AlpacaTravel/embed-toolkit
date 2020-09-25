@@ -1,6 +1,5 @@
-const JSDOM = require("jsdom").JSDOM;
-const AutoBindControl = require("../../../src/controls/auto-bind-control");
-const View = require("../../../src/view");
+import AutoBindControl from "../../../src/controls/auto-bind-control";
+import View from "../../../src/view";
 
 test("default export", () => {
   expect(AutoBindControl);

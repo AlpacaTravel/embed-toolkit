@@ -1,25 +1,30 @@
+type MessagingOptions = {
+  url: string;
+  callback: Function;
+  host: string;
+};
+
 // Provide safe cross domain messaging
-const init = (iframe, options = {}) => {
+export const init = (iframe: HTMLIFrameElement, options: MessagingOptions) => {
   const { url, callback, host } = options;
 
   // Process a message received
-  const messageReceiver = (e) => {
-    // console.log('Received', e, e.isTrusted);
+  const messageReceiver = (e: MessageEvent) => {
     if (e.isTrusted) {
       callback(e.data);
     }
   };
 
   // Share a message
-  const messageSender = (target, data) => {
+  const messageSender = (target: Window, data: any) => {
     // console.log('Sending', host, data);
     target.postMessage(data, host);
   };
 
   // Subscribe to the window events
-  const listener = window.addEventListener("message", messageReceiver, false);
+  window.addEventListener("message", messageReceiver, false);
   const removeListener = () => {
-    window.removeEventListener("message", listener, false);
+    window.removeEventListener("message", messageReceiver, false);
   };
 
   // Return the unsubscribe action
@@ -30,5 +35,3 @@ const init = (iframe, options = {}) => {
     dispatch: messageSender,
   };
 };
-
-module.exports = { init };

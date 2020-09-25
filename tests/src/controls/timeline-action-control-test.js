@@ -1,6 +1,5 @@
-const JSDOM = require("jsdom").JSDOM;
-const TimelineActionControl = require("../../../src/controls/timeline-action-control");
-const View = require("../../../src/view");
+import TimelineActionControl from "../../../src/controls/timeline-action-control";
+import View from "../../../src/view";
 
 test("default export", () => {
   expect(TimelineActionControl);

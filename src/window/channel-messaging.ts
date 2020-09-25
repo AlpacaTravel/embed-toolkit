@@ -1,19 +1,28 @@
 const channel = new MessageChannel();
 
+type ChannelMessagingOptions = {
+  url: string;
+  callback: Function;
+  host: string;
+};
+
 // Provide safe cross domain messaging
 // Use the MessageChannel approach, as IE has problems with standard messaging
-const init = (iframe, options = {}) => {
+export const init = (
+  iframe: HTMLIFrameElement,
+  options: ChannelMessagingOptions
+) => {
   const { url, callback, host } = options;
 
   // Process a message received
-  const messageReceiver = (e) => {
+  const messageReceiver = (e: MessageEvent) => {
     if (e.isTrusted) {
       callback(e.data);
     }
   };
 
   // Share a message
-  const messageSender = (target, data) => {
+  const messageSender = (target: Window, data: any) => {
     channel.port1.postMessage(data);
   };
 
@@ -26,7 +35,9 @@ const init = (iframe, options = {}) => {
     channel.port1.onmessage = messageReceiver;
 
     // Supply the channel port
-    iframe.contentWindow.postMessage("init", "*", [channel.port2]);
+    if (iframe?.contentWindow) {
+      iframe.contentWindow.postMessage("init", "*", [channel.port2]);
+    }
   };
 
   // Wait for the initialisation
@@ -40,5 +51,3 @@ const init = (iframe, options = {}) => {
     dispatch: messageSender,
   };
 };
-
-module.exports = { init };

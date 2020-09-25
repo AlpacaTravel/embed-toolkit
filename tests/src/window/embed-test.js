@@ -1,5 +1,5 @@
-const nock = require("nock");
-const embed = require("../../../src/window/embed");
+import nock from "nock";
+import * as embed from "../../../src/window/embed";
 
 test("default export", () => {
   expect(embed);

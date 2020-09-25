@@ -1,4 +1,4 @@
-const alpaca = require("../../src/index");
+import alpaca from "../../src/index";
 
 test("default export", () => {
   expect(typeof alpaca).toBe("object");

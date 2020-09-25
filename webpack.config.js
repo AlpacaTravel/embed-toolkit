@@ -2,7 +2,9 @@ const path = require("path");
 
 const config = {
   target: "web",
-  entry: "./src/index.js",
+  entry: {
+    main: "./src/index.js",
+  },
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "alpaca-toolkit-cdn.js",
@@ -12,8 +14,8 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.js$/,
+        exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
           options: {

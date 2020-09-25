@@ -1,4 +1,4 @@
-const messaging = require("../../../src/window/messaging");
+import * as messaging from "../../../src/window/messaging";
 
 test("default export", () => {
   expect(messaging);

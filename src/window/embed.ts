@@ -1,12 +1,24 @@
-const oembed = require("../api/oembed");
+import * as oembed from "../api/oembed";
 
 // Setup the default options
-const defaultOptions = {
+const defaultOptions: { iframe: null } = {
   iframe: null,
 };
 
+type AttachOptions = {
+  url: string;
+  target: string | HTMLElement;
+  iframe?: HTMLIFrameElement;
+  width?: number;
+  height?: number;
+};
+
 // Embed the item
-const attach = async (url, target, options = {}) => {
+export const attach = async (
+  url: string,
+  target: HTMLElement,
+  options: AttachOptions
+) => {
   console.assert(url, "Missing URL to embed");
   console.assert(target, "Required target element");
 
@@ -21,7 +33,11 @@ const attach = async (url, target, options = {}) => {
   );
 
   // Setup the embed options
-  const resolvedOptions = Object.assign({}, defaultOptions, options);
+  const resolvedOptions: AttachOptions = (<any>Object).assign(
+    {},
+    defaultOptions,
+    options
+  );
 
   // Add the iframe to the target element
   const iframe = await obtainIFrameElement(url, resolvedOptions);
@@ -34,7 +50,10 @@ const attach = async (url, target, options = {}) => {
 };
 
 // Query the oembed
-const obtainIFrameElement = async (url, options = {}) => {
+export const obtainIFrameElement = async (
+  url: string,
+  options: AttachOptions
+) => {
   if (options.iframe) {
     return options.iframe;
   }
@@ -48,7 +67,5 @@ const obtainIFrameElement = async (url, options = {}) => {
   div.innerHTML = data.html;
 
   // Return the first child
-  return div.firstChild;
+  return div.firstChild as HTMLIFrameElement;
 };
-
-module.exports = { attach, obtainIFrameElement };

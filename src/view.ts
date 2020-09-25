@@ -1,15 +1,23 @@
-const EventEmitter2 = require("eventemitter2").EventEmitter2;
-const assert = require("assert");
+import assert from "assert";
+import { Promise } from "es6-promise";
 
-const Evented = require("./evented");
-let messaging = null;
+import Evented from "./evented";
+import * as messaging from "./window/messaging";
+import * as embed from "./window/embed";
+import * as config from "./config";
+import {
+  FeatureItem,
+  WindowMessaging,
+  TargetViewport,
+  TargetMove,
+} from "./types";
+
+/*let messaging = null;
 if (process.env.NODE_ENV === "test") {
   messaging = require("./window/messaging");
 } else {
   messaging = require("./window/channel-messaging");
-}
-const embed = require("./window/embed");
-const config = require("./config");
+}*/
 
 const defaultOptions = {
   viewMode: "default",
@@ -17,19 +25,47 @@ const defaultOptions = {
   responsive: false,
 };
 
+type ViewOptions = {
+  container: HTMLElement | "string";
+  url: string;
+  width?: number;
+  height?: number;
+  iframe?: HTMLIFrameElement;
+  baseUrl: string;
+};
+
+type MessagingResponse = {
+  type: string;
+  payload: any;
+};
+
 class View extends Evented {
-  constructor(options) {
+  private options: ViewOptions;
+
+  private container: HTMLElement;
+  private initialising?: Promise<void>;
+  private messaging?: WindowMessaging;
+  private target?: Window;
+  private items?: Promise<FeatureItem[]>;
+
+  constructor(options: ViewOptions) {
     super();
-    const resolvedOptions = Object.assign({}, defaultOptions, options);
+    const resolvedOptions = (<any>Object).assign({}, defaultOptions, options);
     assert(resolvedOptions.container, "Requires the container");
     assert(resolvedOptions.url, "Requires the content to view");
     this.options = resolvedOptions;
 
     // Setup the element based on the container
-    if (typeof resolvedOptions.container === "object") {
+    if (typeof this.options.container === "string") {
+      const matchedContainer = document.getElementById(this.options.container);
+      if (!matchedContainer) {
+        throw new Error(
+          "Unable to locate the supplied container ID via getElementById"
+        );
+      }
+      this.container = matchedContainer;
+    } else {
       this.container = this.options.container;
-    } else if (typeof this.options.container === "string") {
-      this.container = document.getElementById(this.options.container);
     }
     assert(this.container, "Unable to resolve the container");
 
@@ -42,9 +78,6 @@ class View extends Evented {
     this.getItems = this.getItems.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
 
-    // Set up event handling
-    this.emitter = new EventEmitter2();
-
     // Initialise...
     this.init();
   }
@@ -53,19 +86,34 @@ class View extends Evented {
     if (!this.initialising) {
       this.initialising = new Promise((success) => {
         const setupTarget = new Promise((resolve) => {
+          // Update the embed options
+          const attachOptions = {
+            url: this.options.url,
+            height: this.options.height,
+            width: this.options.width,
+            target: this.container,
+            iframe: this.options.iframe,
+          };
+
           // Embed the element
           embed
-            .attach(this.options.url, this.container, this.options)
+            .attach(this.options.url, this.container, attachOptions)
             .then((iframe) => {
               // Initialise messaging with the iframe
               const options = {
-                url: this.options.content,
+                url: this.options.url,
                 callback: this.receiveMessage,
                 host: this.options.baseUrl,
               };
               this.messaging = messaging.init(iframe, options);
 
               // Set the target in the app
+              if (!iframe.contentWindow) {
+                throw new Error(
+                  "Unable to obtain the content window for the iframe"
+                );
+              }
+
               this.target = iframe.contentWindow;
             })
             .then(resolve);
@@ -82,7 +130,7 @@ class View extends Evented {
     return this.initialising;
   }
 
-  receiveMessage(data) {
+  receiveMessage(data: MessagingResponse) {
     if (data) {
       const { type, payload } = data;
       if (type) {
@@ -92,41 +140,41 @@ class View extends Evented {
   }
 
   // TODO: Add a queue mechanism so that these are applied after 'load'
-  dispatch(method, args) {
-    if (this.target) {
+  dispatch(method: string, args: any[]) {
+    if (this.target && this.messaging) {
       this.messaging.dispatch(this.target, { prop: method, args });
     }
   }
 
-  setIndicatedFeature(...args) {
-    this.dispatch("setIndicatedFeature", args);
+  setIndicatedFeature(id: string) {
+    this.dispatch("setIndicatedFeature", [id]);
   }
 
-  setSelectedFeature(...args) {
-    this.dispatch("setSelectedFeature", args);
+  setSelectedFeature(id: string) {
+    this.dispatch("setSelectedFeature", [id]);
   }
 
-  setTargetViewport(...args) {
-    this.dispatch("setTargetViewport", args);
+  setTargetViewport(target: TargetViewport, move?: TargetMove) {
+    this.dispatch("setTargetViewport", [target, move]);
   }
 
-  resetTargetViewport(...args) {
-    this.dispatch("resetTargetViewport", args);
+  resetTargetViewport() {
+    this.dispatch("resetTargetViewport", []);
   }
 
-  setLocaleHotLoad(...args) {
+  setLocaleHotLoad(...args: any[]) {
     this.dispatch("setLocaleHotLoad", args);
   }
 
-  setViewMode(...args) {
-    this.dispatch("setViewMode", args);
+  setViewMode(viewMode: string) {
+    this.dispatch("setViewMode", [viewMode]);
   }
 
   getItems() {
     if (!this.items) {
       // Await for them to arrive
-      this.items = new Promise((success, resolve) => {
-        const handler = ({ items }) => {
+      this.items = new Promise<FeatureItem[]>((success) => {
+        const handler = ({ items }: { items: FeatureItem[] }) => {
           success(items || []);
         };
         this.once("items", handler);
@@ -137,16 +185,21 @@ class View extends Evented {
   }
 
   // Register of controls
-  addControl(control) {
+  addControl(control: Control) {
     assert(control, "Missing a supplied control");
     assert(control.add, "Supplied control does not have add()");
     control.add(this);
   }
-  removeControl(control) {
+  removeControl(control: Control) {
     assert(control, "Missing a supplied control");
     assert(control.remove, "Supplied control does not have remove()");
     control.remove(this);
   }
 }
 
-module.exports = View;
+export default View;
+
+export interface Control {
+  add: (view: View) => void;
+  remove: (view: View) => void;
+}

@@ -1,15 +1,17 @@
-const assert = require("assert");
+import assert from "assert";
 
-const Evented = require("../evented");
-const resolver = require("../resolver").resolver;
+import Evented from "../evented";
+import { resolver, ResolverOptions } from "../resolver";
+import { FeatureItem, Resolver } from "../types";
+import View, { Control } from "../view";
 
-const uuid = () =>
+const uuid = (): string =>
   Math.random().toString(36).substring(2, 15) +
   Math.random().toString(36).substring(2, 15);
 
-const createResolver = (items, options) => {
+const createResolver = (items: FeatureItem[], options?: ResolverOptions) => {
   const r = resolver(items, options);
-  return (keyframe) => {
+  return (keyframe: Keyframe): KeyframeResolver => {
     // Extract the keyframe text to match against
     let text = keyframe.title;
 
@@ -18,16 +20,44 @@ const createResolver = (items, options) => {
   };
 };
 
+type KeyframeResolver = (keyframe: KeyframeResolver) => string | null;
+
 const defaultOptions = {
   keyframes: [],
-  default: null,
 };
 
-class TimelineActionControl extends Evented {
-  constructor(options = {}) {
+type ReferenceableKeyframe = Keyframe & {
+  uuid: string;
+  end: number;
+};
+
+type Keyframe = {
+  id: string;
+  title: string;
+  start: number;
+  end?: number;
+  onEnter: Function;
+  onLeave: Function;
+};
+
+type TimelineActionControlOptions = {
+  keyframes: Keyframe[];
+  resolver?: KeyframeResolver;
+  defaultResolverOptions?: ResolverOptions;
+};
+
+class TimelineActionControl extends Evented implements Control {
+  private options: TimelineActionControlOptions;
+  private keyframes: ReferenceableKeyframe[];
+  private active: ReferenceableKeyframe[];
+  private resolver: Resolver | null = null;
+  private view: View | null = null;
+  private items: FeatureItem[] | null = null;
+
+  constructor(options: TimelineActionControlOptions) {
     super();
 
-    this.options = Object.assign({}, defaultOptions, options);
+    this.options = (<any>Object).assign({}, defaultOptions, options);
 
     // Add in keyframes
     this.keyframes = [];
@@ -44,10 +74,11 @@ class TimelineActionControl extends Evented {
     this.options.keyframes.forEach(this.addKeyframe);
   }
 
-  seek(time) {
+  seek(time: number) {
     // Determine the active keyframes
     const activeKeyframes = this.keyframes.filter(
-      (keyframe) => keyframe.start <= time && time < keyframe.end
+      (keyframe: ReferenceableKeyframe) =>
+        keyframe.start <= time && time < keyframe.end
     );
 
     // Execute their onEnter...
@@ -94,7 +125,7 @@ class TimelineActionControl extends Evented {
     this.active = [];
   }
 
-  addKeyframe(keyframe) {
+  addKeyframe(keyframe: Keyframe) {
     assert(keyframe);
     assert(
       keyframe.title || keyframe.id,
@@ -103,21 +134,26 @@ class TimelineActionControl extends Evented {
     assert(keyframe.start >= 0, "Missing keyframe start time");
 
     this.keyframes.push(
-      Object.assign({}, { uuid: uuid(), end: Infinity }, keyframe)
+      (<any>Object).assign({}, { uuid: uuid(), end: Infinity }, keyframe)
     );
   }
 
-  add(view) {
-    view.getItems().then((items) => {
+  add(view: View) {
+    view.getItems().then((items: FeatureItem[]) => {
       this.items = items;
       this.view = view;
       this.resolver =
-        this.options.resolver || createResolver(items, this.options);
+        this.options.resolver ||
+        createResolver(items, this.options.defaultResolverOptions);
       this.emit("ready");
     });
   }
 
-  remove() {}
+  remove() {
+    this.items = null;
+    this.view = null;
+    this.resolver = null;
+  }
 }
 
-module.exports = TimelineActionControl;
+export default TimelineActionControl;
