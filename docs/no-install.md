@@ -38,7 +38,7 @@ use the oembed service discovery to embed your asset.
 
 ```html
 <script
-  id="journey/2181f781-95f5-11e8-a4a7-024bc0398b11"
+  data-id="journey/2181f781-95f5-11e8-a4a7-024bc0398b11"
   src="https://cdn.alpacamaps.com/scripts/alpaca-widget@v2.js"
 ></script>
 ```

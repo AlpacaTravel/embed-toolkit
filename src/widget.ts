@@ -7,6 +7,7 @@ const element = document.currentScript;
 // Obtain the configuration
 const id = element.getAttribute("id");
 const dataset = element.dataset;
+const contentId = dataset.id;
 
 // Build the container
 const containerId = dataset.containerId || "alpaca";
@@ -45,4 +46,4 @@ const oembed = async (url, options) => {
 };
 
 // Include the oembed in place
-oembed(`https://embed.alpacamaps.com/${id}`, oembedOptions);
+oembed(`https://embed.alpacamaps.com/${contentId}`, oembedOptions);
