@@ -38,12 +38,12 @@ to support your intended use case.
 Supporting a modern ES6/Transpiler environment.
 
 ```javascript
-import alpaca from "@alpaca/client";
+import { View } from "@alpaca/client";
 ```
 
 Directly in the browser window, using either a polyfilled babel environment,
 or if you are providing a babel polyfill in your application, you can include
-the **alpaca.babel.min.js** which relies on the babel runtime.
+the **alpaca-toolkit.js** which relies on the babel runtime.
 
 ```html
 <!-- Example HTML Page -->
@@ -56,7 +56,7 @@ the **alpaca.babel.min.js** which relies on the babel runtime.
   <body>
     <div id="content"></div>
 
-    <script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.polyfilled.min.js"></script>
+    <script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v2.js"></script>
     <script type="text/javascript">
       // Setup the embed options
       var options = {
