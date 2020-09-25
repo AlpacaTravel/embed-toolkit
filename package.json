@@ -1,7 +1,7 @@
 {
   "name": "@alpaca-travel/toolkit",
   "description": "Simple browser toolkit for integrating Alpaca embed content on your website",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
