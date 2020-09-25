@@ -1,0 +1,132 @@
+[
+  {
+    "id": "journey:2181f781-95f5-11e8-a4a7-024bc0398b11",
+    "title": "Prague: From Castles to Cash Only",
+    "tags": false,
+    "locationKeywords": [
+
+    ],
+    "synopsis": "If there's one piece of advice you need, it's this: never refuse a shot of Becherovka from a local (but trust us, it's delicious)."
+  },
+  {
+    "id": "journeymapfeature:f4c823fb-9615-11e8-a4a7-024bc0398b11",
+    "title": "Old Town Square",
+    "locationKeywords": [
+      "Czechia"
+    ],
+    "synopsis": "Start your day here, in the beating heart of Prague."
+  },
+  {
+    "id": "journeymapfeature:35f2a284-9616-11e8-a4a7-024bc0398b11",
+    "title": "Prague Castle",
+    "tags": [
+      "castle",
+      "architecture",
+      "gothic",
+      "romanesque",
+      "history",
+      "culture",
+      "bohemia",
+      "royalty",
+      "politics",
+      "art",
+      "gallery",
+      "museum",
+      "church",
+      "shakespeare",
+      "gardens"
+    ],
+    "locationKeywords": [
+      "Czechia"
+    ],
+    "synopsis": "Wander through the largest ancient castle in the world."
+  },
+  {
+    "id": "journeymapfeature:5f8211be-9616-11e8-a4a7-024bc0398b11",
+    "title": "Lennon Wall",
+    "locationKeywords": [
+      "Lennon Wall",
+      "Czechia"
+    ],
+    "synopsis": "A neighbourhood wall covered in Beatles lyrics and ideas of love and peace."
+  },
+  {
+    "id": "journeymapfeature:7025dea5-9616-11e8-a4a7-024bc0398b11",
+    "title": "Prague Metronome",
+    "locationKeywords": [
+      "n\u00e1b\u0159e\u017e\u00ed Edvarda Bene\u0161e",
+      "Czechia"
+    ],
+    "synopsis": "Unveiled in 1991, the metronome replaced an imposing statue of Stalin that had been destroyed 30 years earlier."
+  },
+  {
+    "id": "journeymapfeature:8a3e99ab-9616-11e8-a4a7-024bc0398b11",
+    "title": "Charles Bridge",
+    "locationKeywords": [
+      "Czechia"
+    ],
+    "synopsis": "Built to connect Prague Castle to Old Town, the bridge is a destination in itself."
+  },
+  {
+    "id": "journeymapfeature:e7c52092-9616-11e8-a4a7-024bc0398b11",
+    "title": "Dinner at Kantyna",
+    "locationKeywords": [
+      "Politick\u00fdch v\u011bz\u0148\u016f",
+      "Czechia",
+      "Kant\u00fdna, 1511\/5, Politick\u00fdch v\u011bz\u0148\u016f, New Town, Prague, okres Hlavn\u00ed m\u011bsto Praha, Hlavn\u00ed m\u011bsto Praha, Prague, 1, Czechia"
+    ],
+    "synopsis": "A butcher's shop and restaurant in one."
+  },
+  {
+    "id": "journeymapfeature:356150a2-9617-11e8-a4a7-024bc0398b11",
+    "title": "Drinks at Cash Only",
+    "locationKeywords": [
+      "Liliov\u00e1",
+      "Czechia"
+    ],
+    "synopsis": "There's more to this bar than meets the eye."
+  },
+  {
+    "id": "journeymapfeature:b8bb2c3a-9617-11e8-a4a7-024bc0398b11",
+    "title": "Kavarna Novy Svet",
+    "locationKeywords": [
+      "Nov\u00fd Sv\u011bt",
+      "Czechia"
+    ],
+    "synopsis": "It's time for a coffee, and where better than in the cobblestone backstreets behind Prague Castle?"
+  },
+  {
+    "id": "journeymapfeature:d1d6a8ff-969f-11e8-a4a7-024bc0398b11",
+    "title": "Strahov Library",
+    "locationKeywords": [
+      "Czechia"
+    ],
+    "synopsis": "Within the walls of the Strahov monastery is one of the most stunning libraries you'll ever step into."
+  },
+  {
+    "id": "journeypointofinterest:23b39a73-96b2-11e8-a4a7-024bc0398b11",
+    "title": "Hemingway Bar",
+    "locationKeywords": [
+      "Karoliny Sv\u011btl\u00e9",
+      "Czechia"
+    ],
+    "synopsis": "Sister bar to Cash Only, here the order of the day is absinthe, and lots of it."
+  },
+  {
+    "id": "journeypointofinterest:601fba15-96a5-11e8-a4a7-024bc0398b11",
+    "title": "Astronomical Clock",
+    "locationKeywords": [
+      "Czechia"
+    ],
+    "synopsis": "Built in 1410 by a local clockmaker, the Prague Orloj is the oldest working clock of its kind in the world."
+  },
+  {
+    "id": "journeypointofinterest:d6165ea9-96a5-11e8-a4a7-024bc0398b11",
+    "title": "Havelsk\u00e9 Tr\u017ei\u0161t\u011b Market",
+    "locationKeywords": [
+      "Czechia",
+      "havelsk\u00e9 tr\u017ei\u0161te, Havelsk\u00e1, Old Town, Prague, okres Hlavn\u00ed m\u011bsto Praha, Hlavn\u00ed m\u011bsto Praha, Prague, 1, Czechia"
+    ],
+    "synopsis": "You can't leave Prague without trying a trdelnik."
+  }
+]
