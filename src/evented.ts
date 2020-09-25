@@ -1,6 +1,6 @@
 import { EventEmitter2, Listener } from "eventemitter2";
 
-class Evented {
+class Evented<T extends string> {
   private emitter: EventEmitter2;
 
   constructor() {
@@ -14,16 +14,16 @@ class Evented {
   }
 
   // Event handling
-  on(event: string, listener: Listener) {
+  on(event: T, listener: Listener) {
     this.emitter.on(event, listener);
   }
-  off(event: string, listener: Listener) {
+  off(event: T, listener: Listener) {
     this.emitter.off(event, listener);
   }
-  once(event: string, listener: Listener) {
+  once(event: T, listener: Listener) {
     this.emitter.once(event, listener);
   }
-  emit(event: string, ...args: any[]) {
+  emit(event: T, ...args: any[]) {
     this.emitter.emit(event, ...args);
   }
 }

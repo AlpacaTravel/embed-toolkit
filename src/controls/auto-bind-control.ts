@@ -1,7 +1,6 @@
-import assert from "assert";
-
 import { FeatureItem, Resolver } from "../types";
 import Evented from "../evented";
+import assert from "../assert";
 import { resolver, ResolverOptions } from "../resolver";
 import View, { Control } from "../view";
 
@@ -47,8 +46,9 @@ const defaultOptions: AutoBindControlOptions = {
   attribute: "data-alpaca-id",
   filter: defaultFilter,
 };
+type EventType = "bind";
 
-class AutoBindControl extends Evented implements Control {
+class AutoBindControl extends Evented<EventType> implements Control {
   private options: AutoBindControlOptions;
 
   constructor(options: AutoBindControlOptions = {}) {

@@ -26,10 +26,14 @@
     "test-watch": "jest --watch",
     "docs-serve": "docsify serve ./docs",
     "deploy": "yarn build && ./dist.sh",
-    "type-check": "yarn tsc --noEmit"
+    "type-check": "yarn tsc --noEmit",
+    "pretest": "yarn build",
+    "prepublish": "yarn build",
+    "postpublish": "yarn deploy",
+    "release": "yarn build && bin/deploy"
   },
   "dependencies": {
-    "assert": "^1.4.1",
+    "es6-promise": "^4.2.8",
     "eventemitter2": "^5.0.1",
     "fuse.js": "^3.2.1",
     "isomorphic-fetch": "^3.0.0",
@@ -42,10 +46,8 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@rollup/plugin-commonjs": "^11.1.0",
-    "@types/assert": "^1.5.2",
-    "@types/es6-promise": "^3.3.0",
-    "@types/fuse": "^2.6.0",
     "@types/jest": "^26.0.14",
+    "@types/jsdom": "^16.2.4",
     "@types/lodash.throttle": "^4.1.6",
     "@types/urijs": "^1.19.12",
     "babel-jest": "^26.3.0",

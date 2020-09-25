@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "../assert";
 import throttle from "lodash.throttle";
 
 import View, { Control } from "../view";

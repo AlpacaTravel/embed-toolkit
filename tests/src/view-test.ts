@@ -9,7 +9,10 @@ test("default export", () => {
 const mock = () => {
   nock("https://embed.alpacamaps.com:443", { encodedQueryParams: true })
     .get("/oembed")
-    .query({ url: "https%3A%2F%2Fembed.alpacamaps.com%2Fexample" })
+    .query({
+      url: "https%3A%2F%2Fembed.alpacamaps.com%2Fexample",
+      baseUrl: "https%3A%2F%2Fembed.alpacamaps.com",
+    })
     .reply(
       200,
       { html: '<iframe src="https://embed.alpacamaps.com/example" />' },
@@ -74,7 +77,7 @@ test("receiveMessage()", () => {
     });
     view.emit = emit.bind(view);
 
-    view.receiveMessage({ type: "test", payload: { foo: "bar" } });
+    view.receiveMessage({ type: "state", payload: { foo: "bar" } });
     expect(emit.mock.calls.length).toBe(1);
     done();
   });
@@ -86,11 +89,11 @@ test("dispatch()", () => {
   return new Promise((done) => {
     view.init().then(() => {
       const dispatch = jest.fn().mockImplementation((...args) => {
-        expect(args[1]).toEqual({ prop: "foo", args: ["bar"] });
+        expect(args[1]).toEqual({ prop: "state", args: ["bar"] });
       });
       view.getMessaging().dispatch = dispatch.bind(view);
 
-      view.dispatch("foo", ["bar"]);
+      view.dispatch("state", ["bar"]);
       expect(dispatch.mock.calls.length).toBe(1);
       done();
     });

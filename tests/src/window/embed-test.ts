@@ -10,7 +10,9 @@ test("default export", () => {
 test("obtainIFrameElement() calls oembed", () => {
   nock("https://embed.alpacamaps.com:443", { encodedQueryParams: true })
     .get("/oembed")
-    .query({ url: "https%3A%2F%2Fembed.alpacamaps.com%2Fexample" })
+    .query({
+      url: "https%3A%2F%2Fembed.alpacamaps.com%2Fexample",
+    })
     .reply(200, { html: "<iframe />" }, [
       "Access-Control-Allow-Origin",
       "*",

@@ -1,7 +1,5 @@
-import assert from "assert";
-import { Promise } from "es6-promise";
-
 import Evented from "./evented";
+import assert from "./assert";
 import * as messaging from "./window/messaging";
 import * as embed from "./window/embed";
 import * as oembed from "./api/oembed";
@@ -12,7 +10,6 @@ import {
   TargetViewport,
   TargetMove,
 } from "./types";
-import URI from "urijs";
 
 /*let messaging = null;
 if (process.env.NODE_ENV === "test") {
@@ -24,9 +21,7 @@ if (process.env.NODE_ENV === "test") {
 const defaultOptions = {};
 
 const defaultGetOptions = {
-  viewMode: "default",
   baseUrl: config.BASE_URL,
-  responsive: false,
 };
 
 function isIframe(obj: any): obj is IframeAttach {
@@ -54,7 +49,7 @@ type MessagingResponse = {
   payload: any;
 };
 
-class View extends Evented {
+class View extends Evented<EventType> {
   private options: ViewOptions;
 
   private container?: HTMLElement;
@@ -208,8 +203,17 @@ class View extends Evented {
   receiveMessage(data: MessagingResponse) {
     if (data) {
       const { type, payload } = data;
-      if (type) {
-        this.emit(type, payload);
+      switch (type) {
+        case "init":
+        case "indicated":
+        case "selected":
+        case "state":
+        case "items":
+        case "loaded":
+        case "error":
+          this.emit(type, payload);
+        default:
+          break;
       }
     }
   }
@@ -278,7 +282,17 @@ class View extends Evented {
 
 export default View;
 
-export interface Control {
+export type Control = {
   add: (view: View) => void;
   remove: (view: View) => void;
-}
+};
+
+type EventType =
+  | "init"
+  | "error"
+  | "indicated"
+  | "items"
+  | "loading"
+  | "loaded"
+  | "selected"
+  | "state";

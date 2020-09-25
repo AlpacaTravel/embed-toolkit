@@ -1,7 +1,6 @@
-import assert from "assert";
-
 import Evented from "../evented";
 import { resolver, ResolverOptions } from "../resolver";
+import assert from "../assert";
 import { FeatureItem, Resolver } from "../types";
 import View, { Control } from "../view";
 
@@ -46,7 +45,9 @@ type TimelineActionControlOptions = {
   defaultResolverOptions?: ResolverOptions;
 };
 
-class TimelineActionControl extends Evented implements Control {
+type EventType = "ready";
+
+class TimelineActionControl extends Evented<EventType> implements Control {
   private options: TimelineActionControlOptions;
   private keyframes: ReferenceableKeyframe[];
   private active: ReferenceableKeyframe[];
@@ -127,7 +128,7 @@ class TimelineActionControl extends Evented implements Control {
   }
 
   addKeyframe(keyframe: Keyframe) {
-    assert(keyframe);
+    assert(keyframe, "Requires a keyframe");
     assert(
       keyframe.title || keyframe.id,
       "Unable to add keyframe as it is missing an ID or title"
