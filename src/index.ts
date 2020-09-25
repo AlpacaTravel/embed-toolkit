@@ -10,5 +10,3 @@ export { FeatureItem, TargetViewport, TargetMove } from "./types";
 export const View = DefaultView;
 export const resolver = defaultResolver;
 export const controls = availableControls;
-
-export default View;
