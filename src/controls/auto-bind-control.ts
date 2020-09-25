@@ -94,13 +94,17 @@ class AutoBindControl extends Evented implements Control {
       const resolver =
         this.options.resolve ||
         createResolver(filteredItems, this.options.defaultResolverOptions);
+      console.log(resolver);
       elements.forEach((element) => {
         try {
           if (!exclude(element)) {
             const id = resolver(element, filteredItems);
+            console.log(id);
             if (id) {
               if (attribute) {
                 element.setAttribute(attribute, id);
+              } else {
+                console.warn("No attribute specified");
               }
             }
           }

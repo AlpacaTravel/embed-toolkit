@@ -73,14 +73,12 @@ test("evaluate() prague", () => {
   const text = `${match}<div id="container"></div>`;
   document.body.innerHTML = text;
 
-  const container = document.getElementById("container");
   const iframe = document.createElement("iframe");
+  iframe.src = "https://embed.alpacamaps.com/example";
+  document.body.appendChild(iframe);
 
   // Create the view
-  const url = "https://embed.alpacamaps.com/example";
   const view = new View({
-    url,
-    container,
     iframe,
   });
   const autobind = new AutoBindControl({
@@ -108,7 +106,7 @@ test("evaluate() prague", () => {
   });
 });
 
-test("evaluate()", () => {
+test.only("evaluate()", () => {
   const match =
     "<ul>" +
     '<li id="melb">Melbourne Australia</li>' +
@@ -120,14 +118,12 @@ test("evaluate()", () => {
   const text = `${match}<div id="container"></div>`;
   document.body.innerHTML = text;
 
-  const container = document.getElementById("container");
   const iframe = document.createElement("iframe");
+  iframe.src = "https://embed.alpacamaps.com/example";
+  document.body.appendChild(iframe);
 
   // Create the view
-  const url = "https://embed.alpacamaps.com/example";
   const view = new View({
-    url,
-    container,
     iframe,
   });
   const autobind = new AutoBindControl({
@@ -149,6 +145,7 @@ test("evaluate()", () => {
   return new Promise((done) => {
     // The view receives a bind event once complete
     autobind.on("bind", () => {
+      console.log("bind called");
       expect(
         document.getElementById("melb").getAttribute("data-alpaca-id")
       ).toEqual(melbourne.id);
@@ -158,6 +155,7 @@ test("evaluate()", () => {
       expect(
         document.getElementById("florida").getAttribute("data-alpaca-id")
       ).toEqual(florida.id);
+      console.log("bind finished");
       done();
     });
   });

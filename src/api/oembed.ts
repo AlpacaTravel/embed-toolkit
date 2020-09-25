@@ -2,7 +2,7 @@ import "isomorphic-fetch";
 import { Promise } from "es6-promise";
 import * as config from "../config";
 
-type GetOptions = {
+export type GetOptions = {
   width?: number;
   height?: number;
   viewMode?: string;
@@ -44,6 +44,9 @@ export const get = (url: string, options: GetOptions = {}) =>
 
     // Query oEmbed
     const embedService = new URL(resolvedOptions.oembedService);
+    if (params.url) {
+      embedService.searchParams.append("url", params.url);
+    }
     if (params.width) {
       embedService.searchParams.append("width", params.width);
     }
@@ -62,6 +65,7 @@ export const get = (url: string, options: GetOptions = {}) =>
     if (params.baseUrl) {
       embedService.searchParams.append("baseUrl", params.baseUrl);
     }
+
     return fetch(embedService.toString())
       .then((res) => {
         success(res.json());

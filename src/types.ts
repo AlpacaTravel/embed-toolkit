@@ -1,5 +1,4 @@
 export type FeatureItem = {
-  discriminator: string;
   id: string;
   title?: string;
 };

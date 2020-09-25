@@ -4,6 +4,7 @@ import { Promise } from "es6-promise";
 import Evented from "./evented";
 import * as messaging from "./window/messaging";
 import * as embed from "./window/embed";
+import * as oembed from "./api/oembed";
 import * as config from "./config";
 import {
   FeatureItem,
@@ -11,6 +12,7 @@ import {
   TargetViewport,
   TargetMove,
 } from "./types";
+import URI from "urijs";
 
 /*let messaging = null;
 if (process.env.NODE_ENV === "test") {
@@ -19,20 +21,32 @@ if (process.env.NODE_ENV === "test") {
   messaging = require("./window/channel-messaging");
 }*/
 
-const defaultOptions = {
+const defaultOptions = {};
+
+const defaultGetOptions = {
   viewMode: "default",
-  baseUrl: config.BASE_URL, // No trailing slash
+  baseUrl: config.BASE_URL,
   responsive: false,
 };
 
-type ViewOptions = {
+function isIframe(obj: any): obj is IframeAttach {
+  return obj.iframe !== undefined;
+}
+
+function isOembed(obj: any): obj is OembedAttach {
+  return obj.url && obj.container;
+}
+
+type OembedAttach = oembed.GetOptions & {
   container: HTMLElement | "string";
   url: string;
-  width?: number;
-  height?: number;
-  iframe?: HTMLIFrameElement;
-  baseUrl: string;
 };
+
+type IframeAttach = {
+  iframe: HTMLIFrameElement;
+};
+
+type ViewOptions = IframeAttach | OembedAttach;
 
 type MessagingResponse = {
   type: string;
@@ -42,32 +56,63 @@ type MessagingResponse = {
 class View extends Evented {
   private options: ViewOptions;
 
-  private container: HTMLElement;
+  private container?: HTMLElement;
   private initialising?: Promise<void>;
   private messaging?: WindowMessaging;
   private target?: Window;
+  private iframe?: HTMLIFrameElement;
   private items?: Promise<FeatureItem[]>;
 
   constructor(options: ViewOptions) {
     super();
-    const resolvedOptions = (<any>Object).assign({}, defaultOptions, options);
-    assert(resolvedOptions.container, "Requires the container");
-    assert(resolvedOptions.url, "Requires the content to view");
+
+    // Resolve the options we are using
+    const resolvedDefaultOptions = (() => {
+      if (isIframe(options)) {
+        return Object.assign({}, defaultOptions);
+      }
+      return Object.assign({}, defaultOptions, defaultGetOptions);
+    })();
+    const resolvedOptions = (<any>Object).assign(
+      {},
+      resolvedDefaultOptions,
+      options
+    );
     this.options = resolvedOptions;
 
-    // Setup the element based on the container
-    if (typeof this.options.container === "string") {
-      const matchedContainer = document.getElementById(this.options.container);
-      if (!matchedContainer) {
+    // Passing the iframe directly
+    if (isIframe(this.options)) {
+      const { iframe } = options as IframeAttach;
+      this.iframe = iframe;
+      // Set the target in the app
+      if (!iframe.contentWindow) {
+        throw new Error("Unable to obtain the content window for the iframe");
+      }
+
+      this.target = iframe.contentWindow;
+    } else {
+      // Use OEmbed
+      if (!this.options.container || !this.options.url) {
         throw new Error(
-          "Unable to locate the supplied container ID via getElementById"
+          "Must define the url and the container (via ID or supplying the element)"
         );
       }
-      this.container = matchedContainer;
-    } else {
-      this.container = this.options.container;
+      // Setup the element based on the container
+      if (typeof this.options.container === "string") {
+        const matchedContainer = document.getElementById(
+          this.options.container
+        );
+        if (!matchedContainer) {
+          throw new Error(
+            "Unable to locate the supplied container ID via getElementById"
+          );
+        }
+        this.container = matchedContainer;
+      } else {
+        this.container = this.options.container;
+      }
+      assert(this.container, "Unable to resolve the container");
     }
-    assert(this.container, "Unable to resolve the container");
 
     // Ensure that the bind is local
     this.dispatch = this.dispatch.bind(this);
@@ -85,45 +130,72 @@ class View extends Evented {
   init() {
     if (!this.initialising) {
       this.initialising = new Promise((success) => {
-        const setupTarget = new Promise((resolve) => {
-          // Update the embed options
-          const attachOptions = {
-            url: this.options.url,
-            height: this.options.height,
-            width: this.options.width,
-            target: this.container,
-            iframe: this.options.iframe,
+        // Check the invocation
+        if (this.iframe) {
+          if (!this.iframe.src) {
+            throw new Error("Unable to obtain the iframe url");
+          }
+          // If we have been supplied an iframe
+          // Initialise messaging with the iframe
+          const url = URI(this.iframe.src);
+          const host = `${url.protocol}://${url.hostname}:${url.port}`;
+
+          // Build the iframe messaging
+          const options = {
+            url: this.iframe.src,
+            callback: this.receiveMessage,
+            host,
           };
+          // Initialise our messaging
+          this.messaging = messaging.init(this.iframe, options);
 
-          // Embed the element
-          embed
-            .attach(this.options.url, this.container, attachOptions)
-            .then((iframe) => {
-              // Initialise messaging with the iframe
-              const options = {
-                url: this.options.url,
-                callback: this.receiveMessage,
-                host: this.options.baseUrl,
-              };
-              this.messaging = messaging.init(iframe, options);
+          this.emit("init");
+          success();
+        } else {
+          // Otherwise, use Oembed...
+          const setupTarget = new Promise((resolve) => {
+            if (!isOembed(this.options)) {
+              throw new Error("Misinitialised iframe options");
+            }
 
-              // Set the target in the app
-              if (!iframe.contentWindow) {
-                throw new Error(
-                  "Unable to obtain the content window for the iframe"
-                );
-              }
+            // Update the embed options
+            const attachOptions = {
+              url: this.options.url,
+              height: this.options.height,
+              width: this.options.width,
+              target: this.container,
+            };
 
-              this.target = iframe.contentWindow;
-            })
-            .then(resolve);
-        });
+            // Embed the element
+            embed
+              .attach(this.container, attachOptions)
+              .then((iframe) => {
+                const options = {
+                  url: (this.options as OembedAttach).url,
+                  callback: this.receiveMessage,
+                  host: (this.options as OembedAttach).baseUrl,
+                };
 
-        // Wait on all the elements
-        Promise.all([setupTarget])
-          .then(() => this.emit("init"))
-          .then(success)
-          .catch((err) => this.emit("error", err));
+                this.messaging = messaging.init(iframe, options);
+
+                // Set the target in the app
+                if (!iframe.contentWindow) {
+                  throw new Error(
+                    "Unable to obtain the content window for the iframe"
+                  );
+                }
+
+                this.target = iframe.contentWindow;
+              })
+              .then(resolve);
+          });
+
+          // Wait on all the elements
+          setupTarget
+            .then(() => this.emit("init"))
+            .then(success)
+            .catch((err) => this.emit("error", err));
+        }
       });
     }
 
@@ -194,6 +266,10 @@ class View extends Evented {
     assert(control, "Missing a supplied control");
     assert(control.remove, "Supplied control does not have remove()");
     control.remove(this);
+  }
+
+  getMessaging() {
+    return this.messaging;
   }
 }
 

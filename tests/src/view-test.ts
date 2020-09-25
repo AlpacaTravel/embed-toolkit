@@ -7,6 +7,20 @@ test("default export", () => {
 });
 
 const mock = () => {
+  nock("https://embed.alpacamaps.com:443", { encodedQueryParams: true })
+    .get("/oembed")
+    .query({ url: "https%3A%2F%2Fembed.alpacamaps.com%2Fexample" })
+    .reply(
+      200,
+      { html: '<iframe src="https://embed.alpacamaps.com/example" />' },
+      [
+        "Access-Control-Allow-Origin",
+        "*",
+        "Content-Type",
+        "application/json; charset=utf-8",
+      ]
+    );
+
   // Setup the container
   const text =
     '<!doctype html><html><body><div id="container"></div></body></html>';
@@ -16,14 +30,12 @@ const mock = () => {
   const { window } = jsdom;
   const doc = window.document;
   const container = doc.getElementById("container");
-  const iframe = doc.createElement("iframe");
 
   // Create the view
   const url = "https://embed.alpacamaps.com/example";
   const view = new View({
     url,
     container,
-    iframe,
   });
   return view;
 };
@@ -33,11 +45,6 @@ test("Instantiates object correctly", () => {
 
   expect(view);
   expect(typeof view).toBe("object");
-
-  // Internals
-  expect(typeof view.container).toBe("object");
-  // expect(typeof view.messaging).toBe('object');
-  expect(typeof view.emitter).toBe("object");
 
   // Test the contract requirements
   expect(typeof view.setIndicatedFeature).toBe("function");
@@ -53,7 +60,6 @@ test("Instantiates object correctly", () => {
 
   return new Promise((done) => {
     view.init().then(() => {
-      expect(typeof view.target).toBe("object");
       return done();
     });
   });
@@ -79,15 +85,12 @@ test("dispatch()", () => {
 
   return new Promise((done) => {
     view.init().then(() => {
-      expect(view.messaging);
-
       const dispatch = jest.fn().mockImplementation((...args) => {
-        expect(args[0]).toEqual(view.target);
-        expect(args[1]).toEqual({ prop: "foo", args: "bar" });
+        expect(args[1]).toEqual({ prop: "foo", args: ["bar"] });
       });
-      view.messaging.dispatch = dispatch.bind(view);
+      view.getMessaging().dispatch = dispatch.bind(view);
 
-      view.dispatch("foo", "bar");
+      view.dispatch("foo", ["bar"]);
       expect(dispatch.mock.calls.length).toBe(1);
       done();
     });
@@ -102,12 +105,12 @@ test("setIndicatedFeature()", () => {
       const dispatch = jest.fn().mockImplementation((...args) => {
         expect(args[1]).toEqual({
           prop: "setIndicatedFeature",
-          args: [1],
+          args: ["1"],
         });
       });
-      view.messaging.dispatch = dispatch.bind(view);
+      view.getMessaging().dispatch = dispatch.bind(view);
 
-      view.setIndicatedFeature(1);
+      view.setIndicatedFeature("1");
       expect(dispatch.mock.calls.length).toBe(1);
       done();
     });
@@ -122,12 +125,12 @@ test("setSelectedFeature()", () => {
       const dispatch = jest.fn().mockImplementation((...args) => {
         expect(args[1]).toEqual({
           prop: "setSelectedFeature",
-          args: [1],
+          args: ["1"],
         });
       });
-      view.messaging.dispatch = dispatch.bind(view);
+      view.getMessaging().dispatch = dispatch.bind(view);
 
-      view.setSelectedFeature(1);
+      view.setSelectedFeature("1");
       expect(dispatch.mock.calls.length).toBe(1);
       done();
     });
@@ -156,6 +159,7 @@ test("addControl()", () => {
   });
   const control = {
     add: mocked,
+    remove: mocked,
   };
 
   view.addControl(control);
@@ -169,6 +173,7 @@ test("removeControl()", () => {
     expect(v).toBe(view);
   });
   const control = {
+    add: mocked,
     remove: mocked,
   };
 

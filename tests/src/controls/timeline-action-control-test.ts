@@ -5,25 +5,16 @@ test("default export", () => {
   expect(TimelineActionControl);
 });
 
-test("contructor()", () => {
-  const timeline = new TimelineActionControl();
-
-  expect(timeline);
-});
-
 test("evaluate()", () => {
   // Setup the container
   const text = `<div id="container"></div>`;
   document.body.innerHTML = text;
 
-  const container = document.getElementById("container");
   const iframe = document.createElement("iframe");
+  document.body.appendChild(iframe);
 
   // Create the view
-  const url = "https://embed.alpacamaps.com/example";
   const view = new View({
-    url,
-    container,
     iframe,
   });
 
@@ -55,9 +46,16 @@ test("evaluate()", () => {
 
   const timeline = new TimelineActionControl({
     keyframes: [
-      { title: "Melbourne", start: 0, end: 5, onEnter, onLeave },
-      { title: "Alpaca", start: 5, end: 10, onEnter, onLeave },
-      { title: "Great Ocean Road", start: 15, end: 20, onEnter, onLeave },
+      { id: "a", title: "Melbourne", start: 0, end: 5, onEnter, onLeave },
+      { id: "b", title: "Alpaca", start: 5, end: 10, onEnter, onLeave },
+      {
+        id: "c",
+        title: "Great Ocean Road",
+        start: 15,
+        end: 20,
+        onEnter,
+        onLeave,
+      },
     ],
   });
 

@@ -1,4 +1,5 @@
 import * as messaging from "../../../src/window/messaging";
+import { window } from "./window";
 
 test("default export", () => {
   expect(messaging);
@@ -24,9 +25,12 @@ test("register()", () => {
     expect(h).toEqual(host);
     expect(data).toEqual(sendData);
   });
-  const target = {
-    postMessage: targetPostMessage,
-  };
+
+  jest.mock("./window", () => ({
+    window: {
+      postMessage: targetPostMessage,
+    },
+  }));
 
   const m = messaging.init(null, { url, callback, host });
 
@@ -35,7 +39,7 @@ test("register()", () => {
   expect(typeof m.remove).toEqual("function");
   expect(typeof m.dispatch).toEqual("function");
 
-  m.dispatch(target, sendData);
+  m.dispatch(window, sendData);
   // const event = new Event('message', message);
   // window.dispatchEvent(event);
   m.remove();

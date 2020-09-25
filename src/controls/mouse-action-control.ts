@@ -8,16 +8,16 @@ const defaultOptions = {
 };
 
 type MouseActionControlOptions = {
-  onClick: Function;
-  onDblClick: Function;
-  onMouseDown: Function;
-  onMouseUp: Function;
-  onMouseEnter: Function;
-  onMouseLeave: Function;
-  onMouseOver: Function;
-  onMouseOut: Function;
+  onClick?: Function;
+  onDblClick?: Function;
+  onMouseDown?: Function;
+  onMouseUp?: Function;
+  onMouseEnter?: Function;
+  onMouseLeave?: Function;
+  onMouseOver?: Function;
+  onMouseOut?: Function;
 
-  attribute: string;
+  attribute?: string;
   selectors: string;
 };
 

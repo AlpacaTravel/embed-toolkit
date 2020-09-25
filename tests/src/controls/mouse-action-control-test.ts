@@ -33,14 +33,11 @@ test("add()", () => {
   const text = `${match}<div id="container"></div>`;
   document.body.innerHTML = text;
 
-  const container = document.getElementById("container");
   const iframe = document.createElement("iframe");
+  document.body.appendChild(iframe);
 
   // Create the view
-  const url = "https://embed.alpacamaps.com/example";
   const view = new View({
-    url,
-    container,
     iframe,
   });
 
