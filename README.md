@@ -74,7 +74,7 @@ the **alpaca.babel.min.js** which relies on the babel runtime.
   <body>
     <div id="content"></div>
 
-    <script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.polyfilled.min.js"></script>
+    <script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v2.js"></script>
     <script type="text/javascript">
       // Setup the embed options
       var options = {
