@@ -6,12 +6,11 @@
 
 # [About](https://alpaca.travel)
 
-Alpaca Travel provides rich interactive media content for users.
+Alpaca Travel provides rich interactive travel media content for users.
 
 This toolkit is provided to assist integration of your Alpaca (https://alpaca.travel)
-content within your website.
-
-**Experimental Release**
+content within your website through JavaScript that can communicate with oembed or your
+iframe.
 
 # [Toolkit Documentation](https://developer.alpacamaps.com/)
 
