@@ -44,8 +44,13 @@ export const attach = async (target: HTMLElement, options: AttachOptions) => {
   // Append the node
   target.innerHTML = html;
 
+  const iframe = target.querySelector("iframe");
+  if (!iframe) {
+    return null;
+  }
+
   // Return the reference to the iframe element target
-  return target.firstChild as HTMLIFrameElement;
+  return iframe as HTMLIFrameElement;
 };
 
 export const getOembedHtml = async (

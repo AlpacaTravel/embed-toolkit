@@ -134,7 +134,7 @@ class View extends Evented {
         // Check the invocation
         if (this.iframe) {
           if (!this.iframe.src) {
-            throw new Error("Unable to obtain the iframe url");
+            throw new Error("Unable to obtain the src from the iframe");
           }
           // If we have been supplied an iframe
           // Initialise messaging with the iframe
@@ -160,9 +160,13 @@ class View extends Evented {
             // Update the embed options
             const attachOptions = {
               url: this.options.url,
+              target: this.container,
+              /* Embed options */
               height: this.options.height,
               width: this.options.width,
-              target: this.container,
+              viewMode: this.options.viewMode,
+              baseUrl: this.options.baseUrl,
+              oembedServic: this.options.oembedService,
             };
 
             // Embed the element
@@ -180,7 +184,7 @@ class View extends Evented {
                 // Set the target in the app
                 if (!iframe.contentWindow) {
                   throw new Error(
-                    "Unable to obtain the content window for the iframe"
+                    "Unable to obtain the content window for the iframe after setting up using oembed"
                   );
                 }
 

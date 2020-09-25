@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>
@@ -6,200 +6,227 @@
 <!--[if IE 8]>
 <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-<meta charset="utf-8">
-<meta http-equiv="Content-Language" content="en"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<script src="alpaca-toolkit.babel.polyfilled.js"></script>
-<title>Alpaca Test</title>
+<html class="no-js" lang="en">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <script src="dist/alpaca-toolkit.js"></script>
+    <title>Alpaca Test</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
-<style>
-body, html {
-width: 100%;
-height: 100%;
-overflow: hidden;
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+    />
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
 
-background-color: black;
-  }
+        background-color: black;
+      }
 
-  .container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+      .container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
 
-  }
+      #player {
+        width: 100%;
+        height: 100%;
+      }
 
-  #player {
-    width: 100%;
-    height: 100%;
-  }
+      #container {
+        flex-shrink: 0;
+        width: 33.33%;
+        height: 100%;
+      }
 
-  #container {
-    flex-shrink: 0;
-    width: 33.33%;
-    height: 100%;
-  }
+      #alpaca-player {
+        padding: 40% 0 0 0;
+        position: relative;
+        width: 100%;
+      }
+      #alpaca-player-container {
+        position: absolute;
+        top: 0;
+        left: 0;
 
-  #alpaca-player {
-    padding:40% 0 0 0;
-    position:relative;
-    width: 100%;
-  }
-  #alpaca-player-container {
-    position:absolute;
-    top:0;
-    left:0;
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
 
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-  }
-
-    #alpaca-player-container iframe {
-      width: 100%;
-      height: 100%;
-    }
-
-</style>
-</head>
-<body>
-<div class="container">
-  <div id="alpaca-player">
-    <div id="alpaca-player-container">
-      <iframe id="player" type="text/html" width="640" height="390"
-        src="https://www.youtube.com/embed/6eBkurKzMtw?showinfo=0&enablejsapi=1"
-        frameborder="0"
-        sandbox="allow-scripts allow-same-origin allow-presentation"
-        ></iframe>
-      <div id="container" class="alpaca-article-embed embed-container alpaca fixed"></div>
+      #alpaca-player-container iframe {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="alpaca-player">
+        <div id="alpaca-player-container">
+          <iframe
+            id="player"
+            type="text/html"
+            width="640"
+            height="390"
+            src="https://www.youtube.com/embed/6eBkurKzMtw?showinfo=0&enablejsapi=1"
+            frameborder="0"
+            sandbox="allow-scripts allow-same-origin allow-presentation"
+          ></iframe>
+          <div
+            id="container"
+            class="alpaca-article-embed embed-container alpaca fixed"
+          ></div>
+        </div>
+      </div>
     </div>
-</div>
-</div>
 
-  <script>
-    // /----------------------- YOUTUBE API --------------------------
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    <script>
+      // /----------------------- YOUTUBE API --------------------------
+      var tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        events: {
-          onStateChange: onPlayerStateChange,
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("player", {
+          events: {
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      // When Youtube is running
+      // Have an interval with a monitoring time that matches to how accurate
+      // your video needs to change (e.g. 250ms)
+      var interval = null;
+      function onPlayerStateChange(e) {
+        if (e.data == YT.PlayerState.PLAYING) {
+          clearInterval(interval);
+          interval = setInterval(run, 250);
+        } else if (
+          e.data == YT.PlayerState.PAUSED ||
+          e.data == YT.PlayerState.ENDED
+        ) {
+          clearInterval(interval);
         }
+      }
+
+      // /--------------------- ALPACA ---------------------------------
+      var options = {
+        container: "container",
+        url:
+          "https://embed.alpacamaps.com/journey/0d766988-b579-11e8-a4a7-024bc0398b11/default",
+        viewMode: "map",
+      };
+
+      // Create the content viewer
+      var view = new alpaca.View(options);
+
+      // What do we want to do with the keyframe?
+      function onKeyframeEnter(keyframe, view) {
+        if (keyframe.camera) {
+          view.setTargetViewport(keyframe.camera);
+        }
+        if (keyframe.id) {
+          setTimeout(function () {
+            view.setIndicatedFeature(keyframe.id);
+          }, 500);
+        }
+      }
+
+      function onKeyframeLeave(keyframe, view) {
+        view.setIndicatedFeature(null);
+      }
+
+      // Create a timeline control that contains keyframes
+      var timeline = new alpaca.controls.TimelineActionControl({
+        keyframes: [
+          {
+            title: "Melbourne",
+            start: 4,
+            onEnter: onKeyframeEnter,
+            end: 7,
+            onLeave: onKeyframeLeave,
+          },
+          {
+            title: "Bushranges Bay Walk",
+            start: 8.7,
+            onEnter: onKeyframeEnter,
+            end: 17,
+            onLeave: onKeyframeLeave,
+            camera: {
+              bounds: [
+                [144.81, -38.518],
+                [145.121, -38.363],
+              ],
+              longitude: 144.81,
+              latitude: -38.518,
+              pitch: 60,
+              bearing: 0,
+              center: 0,
+              zoom: 0,
+            },
+          },
+          {
+            title: "RACV resort",
+            start: 19.5,
+            onEnter: onKeyframeEnter,
+            end: 52.5,
+            onLeave: onKeyframeLeave,
+          },
+          {
+            title: "Merricks General Store",
+            start: 54.5,
+            onEnter: onKeyframeEnter,
+            end: 60,
+            onLeave: onKeyframeLeave,
+          },
+          {
+            title: "Flinders blow hole",
+            start: 62,
+            onEnter: onKeyframeEnter,
+            end: 71,
+            onLeave: onKeyframeLeave,
+          },
+          {
+            title: "St Andrews Beach Brewery",
+            start: 76,
+            onEnter: onKeyframeEnter,
+            end: 83,
+            onLeave: onKeyframeLeave,
+          },
+        ],
       });
-    }
 
-    // When Youtube is running
-    // Have an interval with a monitoring time that matches to how accurate
-    // your video needs to change (e.g. 250ms)
-    var interval = null;
-    function onPlayerStateChange(e) {
-      if (e.data == YT.PlayerState.PLAYING) {
-        clearInterval(interval)
-        interval = setInterval(run, 250);
-      } else if (e.data == YT.PlayerState.PAUSED || e.data == YT.PlayerState.ENDED) {
-        clearInterval(interval);
+      // Add the control to the view
+      view.addControl(timeline);
+
+      view.on("loaded", function () {
+        console.log("GO!");
+        player.playVideo();
+      });
+
+      // Each interval, obtain the current time from the video player
+      // HTML5 == element.currentTime, YouTube = player.getCurrentTime();
+      function run() {
+        var time = player.getCurrentTime();
+        if (time >= 0) {
+          timeline.seek(time);
+        }
       }
-    }
-
-    // /--------------------- ALPACA ---------------------------------
-    var options = {
-      container: 'container',
-      url: 'https://embed.alpacamaps.com/journey/0d766988-b579-11e8-a4a7-024bc0398b11/default',
-      baseUrl: 'http://localhost:8080',
-      oembedService: 'http://localhost:8080/oembed',
-      viewMode: 'map',
-    };
-
-    // Create the content viewer
-    var view = new alpaca.View(options);
-
-    // What do we want to do with the keyframe?
-    function onKeyframeEnter(keyframe, view) {
-      if (keyframe.camera) {
-        view.setTargetViewport(keyframe.camera);
-      }
-      if (keyframe.id) {
-        setTimeout(function() {
-          view.setIndicatedFeature(keyframe.id);
-        }, 500);
-      }
-    }
-
-    function onKeyframeLeave(keyframe, view) {
-      view.setIndicatedFeature(null);
-    }
-
-    // Create a timeline control that contains keyframes
-    var timeline = new alpaca.controls.TimelineActionControl({
-      keyframes: [
-        {
-          title: 'Melbourne',
-          start: 4, onEnter: onKeyframeEnter,
-          end: 7, onLeave: onKeyframeLeave,
-        },
-        {
-          title: 'Bushranges Bay Walk',
-          start: 8.7, onEnter: onKeyframeEnter,
-          end: 17, onLeave: onKeyframeLeave,
-          camera: {
-            bounds: [[144.81, -38.518], [145.121, -38.363]],
-            longitude: 144.81,
-            latitude: -38.518,
-            pitch: 60,
-            bearing: 0,
-            center: 0,
-            zoom: 0,
-          }
-        },
-        {
-          title: 'RACV resort',
-          start: 19.5, onEnter: onKeyframeEnter,
-          end: 52.5, onLeave: onKeyframeLeave,
-        },
-        {
-          title: 'Merricks General Store',
-          start: 54.5, onEnter: onKeyframeEnter,
-          end: 60, onLeave: onKeyframeLeave,
-        },
-        {
-          title: 'Flinders blow hole',
-          start: 62, onEnter: onKeyframeEnter,
-          end: 71, onLeave: onKeyframeLeave,
-        },
-        {
-          title: 'St Andrews Beach Brewery',
-          start: 76, onEnter: onKeyframeEnter,
-          end: 83, onLeave: onKeyframeLeave,
-        },
-      ]
-    });
-
-    // Add the control to the view
-    view.addControl(timeline);
-
-    view.on('loaded', function() {
-      console.log('GO!');
-      player.playVideo();
-    });
-
-    // Each interval, obtain the current time from the video player
-    // HTML5 == element.currentTime, YouTube = player.getCurrentTime();
-    function run() {
-      var time = player.getCurrentTime();
-      if (time >= 0) {
-        timeline.seek(time);
-      }
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

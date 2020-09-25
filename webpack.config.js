@@ -3,11 +3,11 @@ const path = require("path");
 const config = {
   target: "web",
   entry: {
-    main: "./src/index.ts",
+    main: ["@babel/polyfill", "./src/webpack.ts"],
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
-    filename: "alpaca-toolkit-cdn.js",
+    filename: "alpaca-toolkit.js",
     library: "alpaca",
     libraryTarget: "window",
   },

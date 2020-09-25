@@ -14,7 +14,7 @@
   "browserslist": "> 0.25%, not dead",
   "license": "SEE LICENSE IN license",
   "scripts": {
-    "clean": "rm -rf dist && rm -f public/*.js",
+    "clean": "rm -rf dist && rm -fr public/dist",
     "build": "yarn webpack && yarn rollup && cp -r dist public/.",
     "webpack": "webpack",
     "start": "webpack-dev-server",

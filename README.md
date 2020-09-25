@@ -34,12 +34,11 @@ npm install @alpaca-travel/toolkit --save
 
 ## Packaged Files
 
-| File                                     | Description                                                                    |
-| ---------------------------------------- | ------------------------------------------------------------------------------ |
-| `alpaca-toolkit.min.js`                  | CommonJS Module (no dependencies)                                              |
-| `alpaca-toolkit.es6.min.js`              | ECMAScript 6 (no dependencies)                                                 |
-| `alpaca-toolkit.babel.min.js`            | Babel environment (requires babel runtime) including all dependencies          |
-| `alpaca-toolkit.babel.polyfilled.min.js` | already includes the [Babel polyfill](https://babeljs.io/docs/usage/polyfill/) |
+| File                | Description               |
+| ------------------- | ------------------------- |
+| `alpaca-toolkit.js` | Library for target window |
+| `index.cjs.js`      | Common JS                 |
+| `index.es.js`       | ES Module                 |
 
 #### CDN Hosting
 
