@@ -3,28 +3,29 @@
 </p>
 <h1 style="font-weight:300; font-size:1.5rem; text-align: center;"><a style="text-decoration: none; color: inherit" class="app-name-link" data-nosearch="" href="/">@alpaca-travel/toolkit</a></h1>
 
-* Getting Started
+- Getting Started
 
-  * [About](guide)
-  * [No-install Options](no-install)
+  - [About](guide)
+  - [No-install Options](no-install)
 
-* JavaScript Toolkit
+- JavaScript Toolkit
 
-  * [Quickstart](quickstart)
-  * [Installation](install)
-  * [View](view)
+  - [Quickstart](quickstart)
+  - [Installation](install)
+  - [View](view)
 
-* Guides and Samples
+- Guides and Samples
 
-  * [Styles, Fonts and Colours](style)
-  * [Article with Scroll Behaviours](article)
-  * [Video Timeline](video)
-  * [Analytics Integration](analytics)
-  * [QR Generation](qr)
-  * [SEO Strategy](seo)
+  - [Styles, Fonts and Colours](style)
+  - [Article with Scroll Behaviours](article)
+  - [Video Timeline](video)
+  - [React Integration](react)
+  - [Analytics Integration](analytics)
+  - [QR Generation](qr)
+  - [SEO Strategy](seo)
 
-* Support
+- Support
 
-  * [Community](community)
-  * [Commercial Support](support)
-  * [Status](https://status.alpacamaps.com/)
+  - [Community](community)
+  - [Commercial Support](support)
+  - [Status](https://status.alpacamaps.com/)

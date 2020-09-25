@@ -6,4 +6,4 @@ You can bring you video to life with syncronised map and content movements.
 Alpaca makes it easy to integrate videos by providing a timeline assistant
 as well as camera controls.
 
-?> Request sample files
+[View on github](https://github.com/AlpacaTravel/toolkit/blob/master/public/video-timeline.html)
