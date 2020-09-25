@@ -63,14 +63,16 @@ class AutoBindControl extends Evented implements Control {
 
     // Add in the exclude as a function
     if (!this.options.exclude) {
+      // Exlude any element that has the attribute already set
       this.options.exclude = (element: Element) => {
         if (!this.options.attribute) {
           return true;
         }
         if (element.hasAttribute(this.options.attribute)) {
-          return false;
+          // We already have an attribute set
+          return true;
         }
-        return true;
+        return false;
       };
     }
 
@@ -94,17 +96,13 @@ class AutoBindControl extends Evented implements Control {
       const resolver =
         this.options.resolve ||
         createResolver(filteredItems, this.options.defaultResolverOptions);
-      console.log(resolver);
       elements.forEach((element) => {
         try {
           if (!exclude(element)) {
             const id = resolver(element, filteredItems);
-            console.log(id);
             if (id) {
               if (attribute) {
                 element.setAttribute(attribute, id);
-              } else {
-                console.warn("No attribute specified");
               }
             }
           }

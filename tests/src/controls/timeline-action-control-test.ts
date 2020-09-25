@@ -11,6 +11,7 @@ test("evaluate()", () => {
   document.body.innerHTML = text;
 
   const iframe = document.createElement("iframe");
+  iframe.src = "https://embed.alpacamaps.com/example";
   document.body.appendChild(iframe);
 
   // Create the view
@@ -46,10 +47,10 @@ test("evaluate()", () => {
 
   const timeline = new TimelineActionControl({
     keyframes: [
-      { id: "a", title: "Melbourne", start: 0, end: 5, onEnter, onLeave },
-      { id: "b", title: "Alpaca", start: 5, end: 10, onEnter, onLeave },
+      { id: "1", title: "Melbourne", start: 0, end: 5, onEnter, onLeave },
+      { id: "2", title: "Alpaca", start: 5, end: 10, onEnter, onLeave },
       {
-        id: "c",
+        id: "3",
         title: "Great Ocean Road",
         start: 15,
         end: 20,

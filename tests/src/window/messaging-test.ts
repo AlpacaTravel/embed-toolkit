@@ -32,6 +32,9 @@ test("register()", () => {
     },
   }));
 
+  const windowSpy = jest.spyOn(window, "postMessage");
+  windowSpy.mockImplementation(targetPostMessage);
+
   const m = messaging.init(null, { url, callback, host });
 
   expect(m.url).toEqual(url);

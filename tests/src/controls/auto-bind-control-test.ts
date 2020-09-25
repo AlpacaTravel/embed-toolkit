@@ -106,7 +106,7 @@ test("evaluate() prague", () => {
   });
 });
 
-test.only("evaluate()", () => {
+test("evaluate()", () => {
   const match =
     "<ul>" +
     '<li id="melb">Melbourne Australia</li>' +
@@ -145,7 +145,6 @@ test.only("evaluate()", () => {
   return new Promise((done) => {
     // The view receives a bind event once complete
     autobind.on("bind", () => {
-      console.log("bind called");
       expect(
         document.getElementById("melb").getAttribute("data-alpaca-id")
       ).toEqual(melbourne.id);
@@ -155,7 +154,6 @@ test.only("evaluate()", () => {
       expect(
         document.getElementById("florida").getAttribute("data-alpaca-id")
       ).toEqual(florida.id);
-      console.log("bind finished");
       done();
     });
   });

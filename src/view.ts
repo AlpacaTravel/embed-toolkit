@@ -138,7 +138,7 @@ class View extends Evented {
           // If we have been supplied an iframe
           // Initialise messaging with the iframe
           const url = URI(this.iframe.src);
-          const host = `${url.protocol}://${url.hostname}:${url.port}`;
+          const host = `${url.protocol()}://${url.hostname()}`;
 
           // Build the iframe messaging
           const options = {

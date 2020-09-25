@@ -98,6 +98,7 @@ class TimelineActionControl extends Evented implements Control {
         if (!keyframe.id && id) {
           keyframe.id = id;
         }
+
         const onEnter = keyframe.onEnter;
         if (onEnter) {
           onEnter(keyframe, this.view, this.options);
@@ -105,7 +106,7 @@ class TimelineActionControl extends Evented implements Control {
       });
 
     // Execute their onExit
-    this.active
+    (this.active || [])
       .filter(
         (keyframe) =>
           activeKeyframes.findIndex((kf) => kf.uuid === keyframe.uuid) < 0

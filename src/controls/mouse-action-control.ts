@@ -83,7 +83,7 @@ class MouseActionControl implements Control {
         const { attribute } = this.options;
         const id = target.getAttribute(attribute);
         if (id) {
-          action(id, this.view, event);
+          action(id, this.view, e);
         }
       }
     }
