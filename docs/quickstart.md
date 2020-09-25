@@ -17,11 +17,12 @@ Include the JavaScript in the `<head>` of your HTML file.
 Include the following code within your `<body>` of your HTML file.
 
 ```html
-<div id="map" style="width: 400px; height: 300px;"></div>
+<div id="alpaca" style="width: 800px; height: 600px;"></div>
+
 <script type="text/javascript">
   // Setup the embed options
   var options = {
-    container: "map",
+    container: "alpaca",
     url:
       "https://embed.alpacamaps.com/b8548d2e-e27f-11e6-a4a7-024bc0398b11/embed",
   };

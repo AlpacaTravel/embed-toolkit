@@ -28,8 +28,25 @@ the content.
 ![Share embed](_media/screenshot-embed.png)
 
 ?> **Note:** You can quickly obtain the IFrame code directly from any content
-you find and embed on your website. Go to *sharing* and then *embed* in to
+you find and embed on your website. Go to _sharing_ and then _embed_ in to
 access simple IFrame codes.
+
+## Widget Script Tag
+
+Via a single widget script tag, you can include your asset in place. This will
+use the oembed service discovery to embed your asset.
+
+```html
+<script
+  id="journey/2181f781-95f5-11e8-a4a7-024bc0398b11"
+  src="https://cdn.alpacamaps.com/scripts/alpaca-widget@v2.js"
+></script>
+```
+
+| Script Element Attribute | Description                                |
+| ------------------------ | ------------------------------------------ |
+| data-view-mode           | The alternative view mode                  |
+| data-container-id        | Specify the div container ID to embed into |
 
 ## Embed.ly
 
@@ -57,18 +74,23 @@ content directly into your page.
 
 Alpaca supports the full specification, providing both XML and JSON responses.
 
-***End point***
+**_End point_**
+
 ```
 https://embed.alpacamaps.com/oembed?url=<URL>&width=<WIDTH>&height=<HEIGHT>
 ```
 
-| Parameter | Description |
-|-----------|-------------|
-| url* | A URL that points to the alpaca map content |
-| width | The desired width of the iframe |
-| height | The desired height of the iframe |
+| Parameter  | Description                                 |
+| ---------- | ------------------------------------------- |
+| url\*      | A URL that points to the alpaca map content |
+| width      | The desired width of the iframe             |
+| height     | The desired height of the iframe            |
+| responsive | "false" to return a single iframe           |
+| viewMode   | The desired view mode                       |
+| baseUrl    | The base host url to use for assets         |
 
-***Example Response***
+**_Example Response_**
+
 ```javascript
 {
   "version": "1.0",
@@ -81,5 +103,5 @@ https://embed.alpacamaps.com/oembed?url=<URL>&width=<WIDTH>&height=<HEIGHT>
 }
 ```
 
-?> ***Note:*** On any piece of content, you can obtain the URL to use via
+?> **_Note:_** On any piece of content, you can obtain the URL to use via
 the map "share" and "embed" options.
