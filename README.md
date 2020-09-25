@@ -34,26 +34,26 @@ npm install @alpaca-travel/toolkit --save
 
 ## Packaged Files
 
-| File | Description |
-|------|-------------|
-| `alpaca-toolkit.min.js` | CommonJS Module (no dependencies) |
-| `alpaca-toolkit.es6.min.js` | ECMAScript 6 (no dependencies)|
-| `alpaca-toolkit.babel.min.js` | Babel environment (requires babel runtime) including all dependencies |
+| File                                     | Description                                                                    |
+| ---------------------------------------- | ------------------------------------------------------------------------------ |
+| `alpaca-toolkit.min.js`                  | CommonJS Module (no dependencies)                                              |
+| `alpaca-toolkit.es6.min.js`              | ECMAScript 6 (no dependencies)                                                 |
+| `alpaca-toolkit.babel.min.js`            | Babel environment (requires babel runtime) including all dependencies          |
 | `alpaca-toolkit.babel.polyfilled.min.js` | already includes the [Babel polyfill](https://babeljs.io/docs/usage/polyfill/) |
 
 #### CDN Hosting
 
-| Distribution | Notes |
-|--------------|-------|
+| Distribution                                                                 | Notes                                                 |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------- |
 | https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.polyfilled.min.js | **Default** Version 1 Default CDN containing polyfill |
-| https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.min.js | Version 1 release |
+| https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.min.js            | Version 1 release                                     |
 
 ### Examples including the library
 
 Supporting a modern ES6/Transpiler environment.
 
 ```javascript
-import alpaca from '@alpaca-travel/client';
+import alpaca from "@alpaca-travel/toolkit";
 ```
 
 Directly in the browser window, using either a polyfilled babel environment,
@@ -63,25 +63,26 @@ the **alpaca.babel.min.js** which relies on the babel runtime.
 ```html
 <!-- Example HTML Page -->
 <html>
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta charset="UTF-8">
-</head>
-<body>
-  <div id="content"></div>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div id="content"></div>
 
-  <script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.polyfilled.min.js"></script>
-  <script type="text/javascript">
-    // Setup the embed options
-    var options = {
-      container: 'content',
-      url: 'https://embed.alpacamaps.com/b8548d2e-e27f-11e6-a4a7-024bc0398b11/embed',
-    };
+    <script src="https://cdn.alpacamaps.com/scripts/alpaca-toolkit@v1.babel.polyfilled.min.js"></script>
+    <script type="text/javascript">
+      // Setup the embed options
+      var options = {
+        container: "content",
+        url:
+          "https://embed.alpacamaps.com/b8548d2e-e27f-11e6-a4a7-024bc0398b11/embed",
+      };
 
-    // Create the content viewer
-    var view = new alpaca.View(options);
-  </script>
-</body>
+      // Create the content viewer
+      var view = new alpaca.View(options);
+    </script>
+  </body>
 </html>
 ```
