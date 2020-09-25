@@ -6,7 +6,7 @@ Alpaca is a map based story-telling platform that allows you to lead users to
 experiences. Immediately engage your users with rich interactive content.
 </h2>
 
-[example](https://embed.alpacamaps.com/journey/2181f781-95f5-11e8-a4a7-024bc0398b11/default ":include :type=iframe width=100% height=500px")
+[example](https://embed.alpacamaps.com/journey/2181f781-95f5-11e8-a4a7-024bc0398b11/default 'include :type=iframe width=100% height=500px')
 
 The platform is a hosted solution, allowing you to immediately add rich
 engaging experiences to your website or blogging platform. Content is fast to
