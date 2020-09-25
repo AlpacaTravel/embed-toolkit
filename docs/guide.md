@@ -1,3 +1,4 @@
+
 <p align="center">
   <img src="https://developer.alpacamaps.com/_media/logo.svg" width="75" height="75" />
 </p>
@@ -6,7 +7,7 @@ Alpaca is a map based story-telling platform that allows you to lead users to
 experiences. Immediately engage your users with rich interactive content.
 </h2>
 
-[example](https://embed.alpacamaps.com/journey/2181f781-95f5-11e8-a4a7-024bc0398b11/default 'include :type=iframe width=100% height=500px')
+[example](https://embed.alpacamaps.com/journey/2181f781-95f5-11e8-a4a7-024bc0398b11/default ':include :type=iframe width=100% height=500px')
 
 The platform is a hosted solution, allowing you to immediately add rich
 engaging experiences to your website or blogging platform. Content is fast to
@@ -21,4 +22,3 @@ You can also load in content, such as Videos (YouTube, Vimeo etc), Audio
 
 Visit [Alpaca Travel](https://alpaca.travel)
 
-[Play with a React Sandbox](https://codesandbox.io/s/alpaca-toolkit-react-basic-1jxor-1jxor?file=/src/use-view.tsx)
