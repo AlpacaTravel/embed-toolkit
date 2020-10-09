@@ -10,7 +10,7 @@ const dataset = element.dataset;
 const contentId = dataset.id;
 
 // Build the container
-const containerId = dataset.containerId || "alpaca";
+const containerId = dataset.containerId || "alpacaWidget";
 if (!document.getElementById(containerId)) {
   document.write(`<div id="${containerId}"></div>`);
 }
@@ -40,7 +40,7 @@ const oembedOptions = (() => {
 const oembed = async (url, options) => {
   try {
     const { html } = await get(url, options);
-    document.getElementById("alpaca").innerHTML = html;
+    document.getElementById(containerId).innerHTML = html;
   } catch (e) {
     console.error(e);
   }
