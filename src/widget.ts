@@ -36,11 +36,41 @@ const oembedOptions = (() => {
   };
 })();
 
+// Can't directly insert the HTML script tags
+function insertHTML(html, dest, append = false) {
+  if (!append) dest.innerHTML = "";
+  let container = document.createElement("div");
+  container.innerHTML = html;
+  let scripts = container.querySelectorAll("script");
+  let nodes = container.childNodes;
+  for (let i = 0; i < nodes.length; i++)
+    dest.appendChild(nodes[i].cloneNode(true));
+  for (let i = 0; i < scripts.length; i++) {
+    let script = document.createElement("script");
+    script.type = scripts[i].type || "text/javascript";
+    if (scripts[i].hasAttribute("src")) script.src = scripts[i].src;
+    script.innerHTML = scripts[i].innerHTML;
+    document.head.appendChild(script);
+    document.head.removeChild(script);
+  }
+  return true;
+}
+
 // Write via oembed
 const oembed = async (url, options) => {
   try {
     const { html } = await get(url, options);
-    document.getElementById(containerId).innerHTML = html;
+
+    // Determine the insertion mode
+    if (oembedOptions.inline) {
+      // Insert a path for us to use a memory history
+      (window as any).shimLocation = {
+        path: `/${contentId}/${oembedOptions.viewMode}`,
+      };
+      insertHTML(html, document.getElementById(containerId));
+    } else {
+      document.getElementById(containerId).innerHTML = html;
+    }
   } catch (e) {
     console.error(e);
   }
