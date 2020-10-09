@@ -23,6 +23,7 @@ const oembedOptions = (() => {
   const responsive = dataset.responsive === "false" ? false : undefined;
   const oembedService = dataset.oembedService || config.OEMBED_ENDPOINT;
   const viewMode = dataset.viewMode;
+  const inline = dataset.inline === "true" ? true : undefined;
 
   return {
     width,
@@ -31,6 +32,7 @@ const oembedOptions = (() => {
     responsive,
     oembedService,
     viewMode,
+    inline,
   };
 })();
 

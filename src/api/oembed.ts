@@ -9,6 +9,7 @@ export type GetOptions = {
   responsive?: boolean;
   baseUrl?: string;
   oembedService?: string;
+  inline?: boolean;
 };
 
 const defaults: GetOptions = {
@@ -30,6 +31,7 @@ export const get = (url: string, options: GetOptions = {}) =>
       responsive,
       baseUrl,
       oembedService,
+      inline,
     } = resolvedOptions;
 
     // OEmbed Options
@@ -40,10 +42,11 @@ export const get = (url: string, options: GetOptions = {}) =>
       viewMode,
       responsive,
       baseUrl,
+      inline,
     };
 
     // Query oEmbed
-    const embedService = new URL(resolvedOptions.oembedService);
+    const embedService = new URL(oembedService);
     if (params.url) {
       embedService.searchParams.append("url", params.url);
     }
@@ -55,6 +58,9 @@ export const get = (url: string, options: GetOptions = {}) =>
     }
     if (params.responsive === false) {
       embedService.searchParams.append("responsive", "false");
+    }
+    if (params.inline === true) {
+      embedService.searchParams.append("inline", "true");
     }
     if (params.viewMode) {
       embedService.searchParams.append("viewMode", params.viewMode);
