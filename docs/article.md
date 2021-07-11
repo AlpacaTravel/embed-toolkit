@@ -1,5 +1,5 @@
 <h2 style="font-weight:300; font-size:1.5rem; text-align: center;">
-Alpaca is allows you to create more engaging articles for your users.
+Alpaca allows you to create more engaging articles for your users.
 </h2>
 <br/>
 

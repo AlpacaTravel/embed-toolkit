@@ -18,6 +18,7 @@
 
   - [Styles, Fonts and Colours](style)
   - [Article with Scroll Behaviours](article)
+  - [Widget Script](widget)
   - [Video Timeline](video)
   - [React Integration](react)
   - [Analytics Integration](analytics)

@@ -48,6 +48,8 @@ use the oembed service discovery to embed your asset.
 | data-view-mode           | The alternative view mode                  |
 | data-container-id        | Specify the div container ID to embed into |
 
+See the [Widget Script](widget) reference for more information.
+
 ## Embed.ly
 
 Alpaca is listed on the popular embeding tool [embed.ly](https://embed.ly). A
