@@ -24,6 +24,16 @@ const oembedOptions = (() => {
   const oembedService = dataset.oembedService || config.OEMBED_ENDPOINT;
   const viewMode = dataset.viewMode;
   const inline = dataset.inline === "true" ? true : undefined;
+  const queryParams = (() => {
+    const qp = dataset.queryParams;
+    if (typeof dataset.queryParams === "string" && qp.length > 0) {
+      if (qp.substr(0, 1) === "?") {
+        return qp;
+      }
+      return `?${qp}`;
+    }
+    return undefined;
+  })();
 
   return {
     width,
@@ -33,6 +43,7 @@ const oembedOptions = (() => {
     oembedService,
     viewMode,
     inline,
+    queryParams,
   };
 })();
 
@@ -65,7 +76,9 @@ const oembed = async (url, options) => {
     if (oembedOptions.inline) {
       // Insert a path for us to use a memory history
       (window as any).shimLocation = {
-        path: `/${contentId}/${oembedOptions.viewMode}`,
+        path: `/${contentId}/${oembedOptions.viewMode}${
+          options.queryParams ? options.queryParams : ""
+        }`,
       };
       insertHTML(html, document.getElementById(containerId));
     } else {
