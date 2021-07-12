@@ -30,6 +30,7 @@ Alpaca widget. This snippet will include the latest version of the
 | data-view-mode           | The specific view mode (these are various templates alpaca can advise to customise the presentation) |
 | data-inline              | Set to "true" to load the widget directly on page without an iframe                                  |
 | data-container-id        | An alternative div container ID to embed within. This can be your own styled DIV                     |
+| data-content-path\*      | A sub-path for content                                                                               |
 | data-query-params\*      | Optional query parameters to supply the template, to refine the state of the embed                   |
 
 - Note: The query params section is only supported for inline script tags
